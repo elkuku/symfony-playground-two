@@ -26,4 +26,10 @@ return [
         'downloaded_to' => 'vendor/@popperjs/core.js',
         'url' => 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/+esm',
     ],
+    '@hotwired/stimulus' => [
+        'url' => 'https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm',
+    ],
+    '@symfony/stimulus-bundle' => [
+        'path' => '@symfony/stimulus-bundle/loader.js',
+    ],
 ];
