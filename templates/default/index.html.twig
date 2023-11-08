@@ -3,18 +3,71 @@
 {% block title %}Hello DefaultController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <main class="flex-shrink-0">
+        <div class="container">
+            <h1 class="mt-5">
+                Symfony Playground Two
+                <span class="bg-logo"></span>
+            </h1>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <h4>
+                You are using Symfony <code>{{ symfony_version }}</code> in <code>{{ app.environment }}</code> mode on PHP
+                <code>{{ php_version }}</code>.
+            </h4>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/elkuku/repos/symfony-playgound-two/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/elkuku/repos/symfony-playgound-two/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <p class="lead">
+                This friendly message is coming from your <b>{{ controller_name }}</b> at:
+            </p>
+
+            <ul>
+                <li>
+                    <a href="{{ (project_dir ~ '/src/Controller/DefaultController.php')|file_link(0) }}">
+                        src/Controller/DefaultController.php
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ (project_dir ~ '/templates/default/index.html.twig')|file_link(0) }}">
+                        templates/default/index.html.twig
+                    </a>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Launch demo modal
+                    </button>
+                </li>
+            </ul>
+
+            <p>
+
+            <img src="{{ asset('images/wtfpl-logo.png') }}" alt="WTFPL Logo">
+
+            </p>
+        </div>
+    </main>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
