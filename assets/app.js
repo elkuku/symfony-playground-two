@@ -1,15 +1,8 @@
+// Bootstrap Stimulus
 import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
 
-import {Alert} from "./vendor/bootstrap.js";
-import {Tooltip} from "./vendor/bootstrap.js";
+// Color theme switcher
 import './vendor/twbs/color-modes.js'
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉')
 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
+// Bootstrap alert - This will make the dropdown menu work...
+import {Alert} from "./vendor/bootstrap.js";
