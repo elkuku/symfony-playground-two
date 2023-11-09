@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/', name: 'app_default', methods: ['GET'])]
 class DefaultController extends AbstractController
 {
-    #[Route('/', name: 'app_default')]
     public function __invoke(
         #[Autowire('%kernel.project_dir%')] string $projectDir,
     ): Response
