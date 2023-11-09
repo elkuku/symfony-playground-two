@@ -12,10 +12,7 @@
 {% block body %}
     <main class="flex-shrink-0">
         <div class="container">
-            <h1 class="mt-5">
-                Symfony Playground Two
-                <span class="bg-logo"></span>
-            </h1>
+            <h1 class="mt-5">Symfony Playground Two <span class="bg-logo"></span></h1>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>Holy guacamole!</strong> You should check in on some of those fields below.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -72,7 +69,7 @@
                 </li>
             </ul>
 
-            <div class="alert alert-success" role="alert"{{ stimulus_controller('hello') }}>
+            <div class="alert alert-success" role="alert" {{ stimulus_controller('hello') }}>
                 Stimulus test...
             </div>
 
@@ -121,8 +118,7 @@
         </div>
     </main>
 
-
-
+    <!-- Toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -135,6 +131,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -153,6 +150,4 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}
