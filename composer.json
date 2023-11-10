@@ -1,8 +1,8 @@
 {
+    "name": "elkuku/symfony-playground-two",
+    "description": "A Symfony project template",
     "type": "project",
     "license": "wtfpl",
-    "name": "elkuku/symfony_playground_two",
-    "description": "A Symfony project template",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
