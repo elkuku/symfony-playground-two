@@ -1,6 +1,8 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "license": "wtfpl",
+    "name": "elkuku/symfony_playground_two",
+    "description": "A Symfony project template",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
@@ -12,7 +14,7 @@
         "doctrine/orm": "^2.16",
         "elkuku/symfony-utils": "dev-master",
         "google/apiclient": "^2.15",
-        "knpuniversity/oauth2-client-bundle": "*",
+        "knpuniversity/oauth2-client-bundle": "v2.16",
         "league/oauth2-github": "^3.1",
         "league/oauth2-google": "^4.0",
         "omines/oauth2-gitlab": "^3.6",
