@@ -11,6 +11,21 @@
 
 {% block body %}
     <h1 class="mt-5">Symfony Playground Two <span class="bg-logo"></span></h1>
+
+    {% if app.user %}
+        <div class="alert alert-success">
+            <h4>Welcome {{ app.user.param('user_name') ?: app.user.userIdentifier }}!</h4>
+            {% if not app.user.param('user_name') %}
+                Please <a href="{{ path('app_profile') }}">update your Profile</a>!
+            {% endif %}
+        </div>
+    {% else %}
+        <h4>
+            Use the <code>symfony console user-admin</code> command to create a user so you can
+            <a href="{{ path('login') }}">log in</a>!
+        </h4>
+    {% endif %}
+
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Holy guacamole!</strong> You should check in on some of those fields below.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

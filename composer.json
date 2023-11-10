@@ -10,6 +10,12 @@
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.16",
+        "elkuku/symfony-utils": "dev-master",
+        "google/apiclient": "^2.15",
+        "knpuniversity/oauth2-client-bundle": "*",
+        "league/oauth2-github": "^3.1",
+        "league/oauth2-google": "^4.0",
+        "omines/oauth2-gitlab": "^3.6",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.24",
         "symfony/asset": "6.3.*",
@@ -87,7 +93,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.3.*"
         }
     },
