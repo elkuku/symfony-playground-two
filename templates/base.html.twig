@@ -1,80 +1,44 @@
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Playground Two{% endblock %}</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+
     {% block stylesheets %}
-            {{ ux_controller_link_tags() }}
+        {{ ux_controller_link_tags() }}
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
     {% endblock %}
 
     {% block javascripts %}
         {{ importmap() }}
-
     {% endblock %}
 </head>
 <body class="d-flex flex-column h-100">
+
 {% include '_/_theme_selector.html.twig' %}
+
 <header>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Playground</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
+    {% include '_/_nav_bar.html.twig' %}
 </header>
 
-
-
-
-{% block body %}
-
-{% endblock %}
-
-<footer class="footer mt-auto py-3 bg-body-tertiary">
+<main class="flex-shrink-0">
     <div class="container">
-        <span class="text-body-secondary">Place sticky footer content here.</span>
+        <noscript>
+            <h1 class="alert alert-danger">Please activate JavaScript!</h1>
+        </noscript>
+        {% include ('_/_flash-messages.html.twig') %}
+        {% block body %}{% endblock %}
     </div>
-</footer>
+</main>
+
+{% include ('_/_footer.html.twig') %}
 
 </body>
 </html>
