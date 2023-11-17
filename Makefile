@@ -13,6 +13,7 @@ tests:
 .PHONY: tests
 citests: export APP_ENV=test
 citests:
+	bin/console debug:container --env-vars
 #	bin/console doctrine:database:drop --force || true
 	bin/console doctrine:database:create
 	bin/console doctrine:migrations:migrate -n
