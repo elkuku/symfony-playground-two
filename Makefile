@@ -15,7 +15,7 @@ citests: export APP_ENV=test
 citests:
 	bin/console debug:dotenv
 #	bin/console doctrine:database:drop --force || true
-#	bin/console doctrine:database:create
+	bin/console doctrine:database:create -vvv
 	bin/console doctrine:migrations:migrate -n
 	bin/console doctrine:fixtures:load -n
 	bin/phpunit --testdox
