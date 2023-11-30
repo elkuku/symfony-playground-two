@@ -1483,22 +1483,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elkuku/symfony-utils.git",
-                "reference": "13445a6f7b8e0ce9dc90449fdd44b263a6a9d5dc"
+                "reference": "6727bf65950f0eb43369d33c78b98d3818dba359"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elkuku/symfony-utils/zipball/13445a6f7b8e0ce9dc90449fdd44b263a6a9d5dc",
-                "reference": "13445a6f7b8e0ce9dc90449fdd44b263a6a9d5dc",
+                "url": "https://api.github.com/repos/elkuku/symfony-utils/zipball/6727bf65950f0eb43369d33c78b98d3818dba359",
+                "reference": "6727bf65950f0eb43369d33c78b98d3818dba359",
                 "shasum": ""
             },
             "require": {
                 "doctrine/doctrine-bundle": "^2.5",
                 "doctrine/orm": "^2.11",
                 "php": ">=8.1",
-                "symfony/browser-kit": "^6.0",
-                "symfony/console": "^6.0",
-                "symfony/framework-bundle": "^6.0",
-                "symfony/security-core": "^6.0"
+                "symfony/browser-kit": "^6.0|^7.0",
+                "symfony/console": "^6.0|^7.0",
+                "symfony/framework-bundle": "^6.0|^7.0",
+                "symfony/security-core": "^6.0|^7.0"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.4",
@@ -1526,7 +1526,7 @@
                 "issues": "https://github.com/elkuku/symfony-utils/issues",
                 "source": "https://github.com/elkuku/symfony-utils/tree/master"
             },
-            "time": "2023-10-02T09:34:12+00:00"
+            "time": "2023-11-30T10:37:11+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -11119,16 +11119,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.51.1",
+            "version": "v1.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "0890fd3cf1e2a5221f9b3c6ee1769c537aef683d"
+                "reference": "112f9466c94a46ca33dc441eee59a12cd1790757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/0890fd3cf1e2a5221f9b3c6ee1769c537aef683d",
-                "reference": "0890fd3cf1e2a5221f9b3c6ee1769c537aef683d",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/112f9466c94a46ca33dc441eee59a12cd1790757",
+                "reference": "112f9466c94a46ca33dc441eee59a12cd1790757",
                 "shasum": ""
             },
             "require": {
@@ -11191,7 +11191,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
-                "source": "https://github.com/symfony/maker-bundle/tree/v1.51.1"
+                "source": "https://github.com/symfony/maker-bundle/tree/v1.52.0"
             },
             "funding": [
                 {
@@ -11207,7 +11207,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-18T18:17:31+00:00"
+            "time": "2023-10-31T18:23:49+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
