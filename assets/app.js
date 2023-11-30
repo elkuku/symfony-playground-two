@@ -1,8 +1,10 @@
-// Bootstrap Stimulus
 import './bootstrap.js';
+// Bootstrap Stimulus
 
 // Color theme switcher
-import './vendor/twbs/color-modes.js'
+import './lib/twbs/color-modes.js'
 
-// Bootstrap alert - This will make the dropdown menu work...
-import {Alert} from "./vendor/bootstrap.js";
+import './styles/app.css'
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';

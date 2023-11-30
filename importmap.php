@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Returns the import map for this application.
+ * Returns the importmap for this application.
  *
  * - "path" is a path inside the asset mapper system. Use the
  *     "debug:asset-map" command to see the full list of paths.
  *
- * - "preload" set to true for any modules that are loaded on the initial
- *     page load to help the browser download them earlier.
+ * - "entrypoint" (JavaScript only) set to true for any module that will
+ *     be used as an "entrypoint" (and passed to the importmap() Twig function).
  *
  * The "importmap:require" command can be used to add new entries to this file.
  *
@@ -15,21 +15,23 @@
  */
 return [
     'app' => [
-        'path' => 'app.js',
-        'preload' => true,
-    ],
-    'bootstrap' => [
-        'downloaded_to' => 'vendor/bootstrap.js',
-        'url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/+esm',
-    ],
-    '@popperjs/core' => [
-        'downloaded_to' => 'vendor/@popperjs/core.js',
-        'url' => 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/+esm',
-    ],
-    '@hotwired/stimulus' => [
-        'url' => 'https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm',
+        'path' => './assets/app.js',
+        'entrypoint' => true,
     ],
     '@symfony/stimulus-bundle' => [
         'path' => '@symfony/stimulus-bundle/loader.js',
+    ],
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.2',
+        'type' => 'css',
+    ],
+    'bootstrap' => [
+        'version' => '5.3.2',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
     ],
 ];
