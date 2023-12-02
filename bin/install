@@ -37,6 +37,9 @@ echo 'hopefully... =;)'
 
 symfony console doctrine:migrations:migrate -n
 
+echo 'Installing assets...'
+symfony console importmap:install
+
 symfony server:start -d
 
 symfony open:local
