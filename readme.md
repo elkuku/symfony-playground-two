@@ -5,20 +5,31 @@
 ## What's this??
 An opinionated [Symfony](https://symfony.com) project template including:
 
-* Symfony 6.*
+* Symfony 7.*
 * Docker compose file for PostgreSQL
 * `dev` login form <br/> `prod` Social login with Google, GitLab, GitHub and [more](https://github.com/knpuniversity/oauth2-client-bundle#step-1-download-the-client-library)
 * Asset mapper
 * Bootstrap
 
 ## Installation
-
-Clone the repo then use the `bin/install` command or execute the script content manually.
+Clone the repo then use the
+```shell
+bin/install
+```
+command or execute the script content manually.
    
 ## Usage
-
-* Use `symfony console user-admin` to create an admin user.
-* Use the `bin/start` and `bin/stop` scripts to start and stop the environment.
+```shell
+symfony console user-admin
+```
+Create an administer user accounts.
+```shell
+bin/start
+```
+```shell
+bin/stop
+```
+start and stop the environment.
 
 ## Testing
 
