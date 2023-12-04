@@ -75,6 +75,8 @@ jobs:
 
             #- name: Yarn build
             #  run: yarn run encore production
+            - name: Install assets
+              run: bin/console importmap:install
             ## —— Tests ———————————————————————————————————————————————————————————
             - name: Run functionnal and unit tests
               run: make citests
