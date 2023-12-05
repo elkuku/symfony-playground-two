@@ -65,13 +65,7 @@ jobs:
             - name: Install assets
               run: bin/console importmap:install
             ## —— Tests ———————————————————————————————————————————————————————————
-            - name: Run functionnal and unit tests
+            - name: Run functional and unit tests
               run: make citests
               env:
                   DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
-
-#                php bin/phpunit
-#                  cp .env.ci .env.test
-#                  cp .env.ci .env
-#                  cp phpunit.ci.xml phpunit.xml
-#                  php bin/phpunit
