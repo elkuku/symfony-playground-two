@@ -69,3 +69,8 @@ jobs:
               run: make citests
               env:
                   DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
+
+            - name: Output log files
+              run: ls /var/log/apache2/
+            - name: aaa
+              run: cat /var/log/apache2/error.log
