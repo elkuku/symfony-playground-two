@@ -1,5 +1,7 @@
 # Symfony Playground "two"
 
+![GitHub workflow](https://github.com/elkuku/symfony-playground-two/actions/workflows/tests.yml/badge.svg)
+
 ![Screenshot_20231110_130931](https://github.com/elkuku/symfony-playground-two/assets/33978/23f73524-bf02-4af6-8c05-5da4ed8fdb7a)
 
 ## What's this??
