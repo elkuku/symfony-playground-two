@@ -15,7 +15,9 @@
     {% endblock %}
 
     {% block javascripts %}
-        {{ importmap('app') }}
+        {% block importmap %}
+            {{ importmap('app') }}
+        {% endblock %}
     {% endblock %}
 </head>
 <body class="d-flex flex-column h-100">
