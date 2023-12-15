@@ -2,7 +2,7 @@
 
 ![GitHub workflow](https://github.com/elkuku/symfony-playground-two/actions/workflows/tests.yml/badge.svg)
 
-![Screenshot_20231110_130931](https://github.com/elkuku/symfony-playground-two/assets/33978/23f73524-bf02-4af6-8c05-5da4ed8fdb7a)
+![screenshot](https://github.com/elkuku/symfony-playground-two/assets/33978/ee197bbd-a4bf-425e-b26c-1acedece271a)
 
 ## What's this??
 An opinionated [Symfony](https://symfony.com) project template including:
