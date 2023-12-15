@@ -90,7 +90,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "check" : "echo 'outdated assets:';bin/console importmap:outdated;echo 'outdated PHP deps:';composer outdated"
     },
     "conflict": {
         "symfony/symfony": "*"
