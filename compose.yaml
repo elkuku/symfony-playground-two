@@ -7,7 +7,7 @@ services:
       ADMINER_DEFAULT_SERVER: database
       ADMINER_DESIGN: dracula
     ports:
-      - "8004:8080"
+      - "8080"
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
