@@ -95,7 +95,9 @@
             "echo 'Check for outdated assets:'",
             "bin/console importmap:outdated",
             "echo 'Check for outdated PHP deps:'",
-            "composer outdated"
+            "composer outdated",
+            "echo 'Check for outdated Recipes:'",
+            "composer recipes:update"
             ]
     },
     "conflict": {
