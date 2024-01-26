@@ -26,11 +26,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     ) {
     }
 
+    #[\Override]
     protected function getLoginUrl(Request $request): string
     {
         return $this->router->generate('login');
     }
 
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         if (false === in_array($this->appEnv, ['dev', 'test'])) {
@@ -49,6 +51,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,

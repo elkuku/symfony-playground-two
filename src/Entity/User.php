@@ -77,10 +77,12 @@ class User implements UserInterface
         $this->identifier = (string) ($data['identifier'] ?? null);
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
     }
 
+    #[\Override]
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -136,6 +138,7 @@ class User implements UserInterface
         return $this->identifier;
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->identifier;

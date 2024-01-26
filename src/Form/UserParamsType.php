@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserParamsType extends AbstractType
 {
+    #[\Override]
     public function buildForm(
         FormBuilderInterface $builder,
         array $options
@@ -16,6 +17,7 @@ class UserParamsType extends AbstractType
             ->add('user_name');
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

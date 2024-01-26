@@ -33,6 +33,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
     ) {
     }
 
+    #[\Override]
     public function supports(Request $request): bool
     {
         return $request->getPathInfo() === '/connect/google/check';
@@ -41,6 +42,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
     /**
      * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
      */
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $token = $this->getGoogleClient()->getAccessToken();
@@ -83,6 +85,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
         return $user;
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
@@ -99,6 +102,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
+    #[\Override]
     public function onAuthenticationFailure(
         Request $request,
         AuthenticationException $exception,

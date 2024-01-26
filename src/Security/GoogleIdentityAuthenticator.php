@@ -33,11 +33,13 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
     ) {
     }
 
+    #[\Override]
     public function supports(Request $request): bool
     {
         return $request->getPathInfo() === '/connect/google/verify';
     }
 
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $idToken = (string) $request->request->get('credential');
@@ -61,6 +63,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
         );
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
@@ -77,6 +80,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
+    #[\Override]
     public function onAuthenticationFailure(
         Request $request,
         AuthenticationException $exception

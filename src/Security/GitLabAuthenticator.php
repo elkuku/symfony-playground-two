@@ -33,6 +33,7 @@ class GitLabAuthenticator extends AbstractAuthenticator
     ) {
     }
 
+    #[\Override]
     public function supports(Request $request): bool
     {
         return $request->getPathInfo() === '/connect/check/gitlab';
@@ -41,6 +42,7 @@ class GitLabAuthenticator extends AbstractAuthenticator
     /**
      * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
      */
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $token = $this->getClient()->getAccessToken();
@@ -92,6 +94,7 @@ class GitLabAuthenticator extends AbstractAuthenticator
         return $user;
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
@@ -108,6 +111,7 @@ class GitLabAuthenticator extends AbstractAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
+    #[\Override]
     public function onAuthenticationFailure(
         Request $request,
         AuthenticationException $exception
