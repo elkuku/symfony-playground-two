@@ -5,7 +5,7 @@ namespace App\Controller\Security;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class GitHubController extends AbstractController
 {
@@ -34,6 +34,6 @@ class GitHubController extends AbstractController
     #[Route(path: '/connect/check/github', name: 'connect_github_check', methods: ['GET'])]
     public function connectCheck(): RedirectResponse
     {
-        return $this->redirectToRoute('default');
+        return $this->redirectToRoute('app_default');
     }
 }
