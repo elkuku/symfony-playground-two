@@ -112,8 +112,8 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "^10",
-        "rector/rector": "^0.19",
+        "phpunit/phpunit": "^11",
+        "rector/rector": "^1.0.0",
         "symfony/browser-kit": "7.0.*",
         "symfony/css-selector": "7.0.*",
         "symfony/debug-bundle": "7.0.*",
