@@ -20,6 +20,9 @@ class ControllerAdminAccessTest extends ControllerBaseTest
             'login'   => [
                 'statusCodes' => ['GET' => 200],
             ],
+            'app_profile'   => [
+                'statusCodes' => ['GET' => 200],
+            ],
 
         ];
 
@@ -34,7 +37,6 @@ class ControllerAdminAccessTest extends ControllerBaseTest
         'Security/GitLabController.php',
     ];
 
-    #[\Override]
     public function testAllRoutesAreProtected(): void
     {
         $client = static::createClient();
