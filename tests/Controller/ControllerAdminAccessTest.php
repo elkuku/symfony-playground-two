@@ -7,7 +7,7 @@ use Elkuku\SymfonyUtils\Test\ControllerBaseTest;
 
 class ControllerAdminAccessTest extends ControllerBaseTest
 {
-    protected string $controllerRoot = __DIR__.'/../../src/Controller';
+    protected string $controllerRoot = __DIR__ . '/../../src/Controller';
 
     /**
      * @var array<string, array<string, array<string, int>>>
@@ -17,11 +17,11 @@ class ControllerAdminAccessTest extends ControllerBaseTest
             'app_default' => [
                 'statusCodes' => ['GET' => 200],
             ],
-            'login'   => [
+            'login' => [
                 'statusCodes' => ['GET' => 200],
             ],
-            'app_profile'   => [
-                'statusCodes' => ['GET' => 200],
+            'app_profile' => [
+                'statusCodes' => ['GET' => 200, 'POST' => 200],
             ],
 
         ];
