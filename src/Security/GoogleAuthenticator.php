@@ -70,7 +70,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
             ['googleId' => $googleUser->getId()]
         );
 
-        if ($user) {
+        if ($user !== null) {
             return $user;
         }
 

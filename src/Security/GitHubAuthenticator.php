@@ -67,17 +67,17 @@ class GitHubAuthenticator extends AbstractAuthenticator
     private function getUser(GithubResourceOwner $resourceOwner): User
     {
         // 1) have they logged in with GitHub before? Easy!
-        if ($user = $this->userRepository->findOneBy(
+        if (($user = $this->userRepository->findOneBy(
             ['gitHubId' => $resourceOwner->getId()]
-        )
+        )) !== null
         ) {
             return $user;
         }
 
         // @todo remove: Fetch user by identifier
-        if ($user = $this->userRepository->findOneBy(
+        if (($user = $this->userRepository->findOneBy(
             ['identifier' => $resourceOwner->getNickname()]
-        )
+        )) !== null
         ) {
             // @todo remove: Update existing users GitHub id
             $user->setGitHubId($resourceOwner->getId());
