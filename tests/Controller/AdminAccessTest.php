@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminAccessTest extends WebTestCase
 {
@@ -11,7 +12,7 @@ class AdminAccessTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/');
+        $client->request(Request::METHOD_GET, '/');
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('h2', 'Symfony Playground Two');
@@ -28,7 +29,7 @@ class AdminAccessTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $client->request('GET', '/');
+        $client->request(Request::METHOD_GET, '/');
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('h4', 'Welcome admin');
