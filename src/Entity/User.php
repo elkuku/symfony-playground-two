@@ -24,7 +24,7 @@ class User implements UserInterface
             'admin' => 'ROLE_ADMIN',
         ];
 
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = 0;
 
     #[Column(unique: true), NotBlank]
