@@ -6,26 +6,25 @@
 # Author: Nikolai Plath
 #
 
-check() {
-if ! command -v "$1" &> /dev/null
-then
-    echo "❌ ERROR: Command '$1' could not be found on your system :("
-    exit 1
-fi
-}
-
-check "docker-compose"
-check "symfony"
-
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd .. && pwd )"
 cd "$DIR" || exit 1
+DOCKER_CONTAINER="$(basename "$DIR")-database-1"
+
+. ./bin/functions.sh
+
+checkIsInstalled symfony
+checkIsInstalled docker-compose
 
 echo "🚀 Starting dev env in $DIR ..."
-
 docker-compose up -d
 
+printf "Waiting for DB to get ready "
+waitContainer "$DOCKER_CONTAINER"
+
+printf "Starting the server... "
 symfony server:start -d
 
+printf "Opening page..."
 symfony open:local
 
 echo "✨ hF =;) 🤪"
