@@ -47,4 +47,4 @@ jobs:
             - name: Run functional and unit tests
               run: make citests
               env:
-                  DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
+                  DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?serverVersion=15&charset=UTF-8
