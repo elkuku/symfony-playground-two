@@ -9,7 +9,7 @@
 # Ensure we're in the right spot. @todo this only works in bash :(
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && cd .. && pwd)"
 cd "$DIR" || exit 1
-DOCKER_CONTAINER="$(basename "$DIR")-database-1"
+DOCKER_CONTAINER="$(basename "$DIR" | tr "[:upper:]" "[:lower:]")-database-1"
 
 . ./bin/functions.sh
 
