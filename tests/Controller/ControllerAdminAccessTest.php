@@ -54,7 +54,7 @@ class ControllerAdminAccessTest extends ControllerBaseTest
         /**
          * @var \Symfony\Component\Security\Core\User\UserInterface $user
          */
-        $user = $userRepository->findOneBy(['identifier' => 'user']);
+        $user = $userRepository->findOneBy(['identifier' => 'admin']);
         $client->loginUser($user);
 
         $this->runTests($client);
