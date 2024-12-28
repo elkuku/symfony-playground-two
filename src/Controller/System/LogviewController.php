@@ -3,6 +3,7 @@
 namespace App\Controller\System;
 
 use App\Controller\BaseController;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -12,8 +13,10 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/system/logview', name: 'app_system_logview', methods: ['GET'])]
+#[IsGranted(User::ROLES['admin'])]
 class LogviewController extends BaseController
 {
     public function __invoke(
@@ -32,11 +35,16 @@ class LogviewController extends BaseController
             if (false === $filesystem->exists($filename)) {
                 throw new IOException('Log file not found!');
             }
+
             $contents = $filesystem->readFile($filename);
             $lines = explode("\n", $contents);
             foreach ($lines as $line) {
                 $line = trim($line);
-                if (empty($line)) {
+                if ($line === '') {
+                    continue;
+                }
+
+                if ($line === '0') {
                     continue;
                 }
 
@@ -72,8 +80,8 @@ class LogviewController extends BaseController
                 $entry .= $line . "\n";
             }
 
-        } catch (IOException $exception) {
-            $this->addFlash('danger', $exception->getMessage());
+        } catch (IOException $ioException) {
+            $this->addFlash('danger', $ioException->getMessage());
         }
 
 
