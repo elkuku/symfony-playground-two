@@ -25,8 +25,6 @@ function waitContainer {
       exit 1
     fi
     printf .
-    lf=$'\n'
     sleep 1
   done
-  printf "$lf"
 }

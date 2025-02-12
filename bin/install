@@ -25,6 +25,7 @@ docker-compose up -d
 
 echo -n 'Waiting for db '
 waitContainer "$DOCKER_CONTAINER"
+echo " ✅  "
 
 symfony console doctrine:migrations:migrate -n
 
@@ -32,4 +33,4 @@ symfony server:start -d
 
 symfony open:local
 
-echo "✨ hF =;) 🤪"
+echo "✨  hF =;) 🤪"

@@ -20,11 +20,13 @@ docker-compose up -d
 
 printf "Waiting for DB to get ready "
 waitContainer "$DOCKER_CONTAINER"
+echo " ✅  "
 
-printf "Starting the server... "
+echo "Starting the server... "
 symfony server:start -d
 
 printf "Opening page..."
 symfony open:local
 
-echo "✨ hF =;) 🤪"
+echo "✨  hF =;) 🤪"
+echo "✅  "

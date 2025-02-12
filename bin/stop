@@ -20,4 +20,4 @@ docker-compose stop
 
 symfony server:stop
 
-echo "✨ bye =;) 🤪"
+echo "✨  bye =;) 🤪"
