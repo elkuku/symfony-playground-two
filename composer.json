@@ -116,6 +116,7 @@
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^11",
         "rector/rector": "^1.0.0",
+        "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*",
         "symfony/debug-bundle": "7.2.*",
