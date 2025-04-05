@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 #[UniqueEntity(fields: 'identifier', message: 'This identifier is already in use')]
 class User implements UserInterface
 {
-    final public const ROLES
+    final public const array ROLES
         = [
             'user' => 'ROLE_USER',
             'admin' => 'ROLE_ADMIN',
