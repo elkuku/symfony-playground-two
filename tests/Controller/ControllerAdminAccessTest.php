@@ -20,10 +20,10 @@ class ControllerAdminAccessTest extends ControllerBaseTest
             'login' => [
                 'statusCodes' => ['GET' => 200],
             ],
-            /*
             'app_system_logview' => [
                 'statusCodes' => ['GET' => 200],
             ],
+            /*
             'app_system_about' => [
                 'statusCodes' => ['GET' => 200],
             ],
