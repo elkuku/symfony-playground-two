@@ -111,6 +111,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.0",
+        "jawira/doctrine-diagram-bundle": "dev-main",
         "phpstan/phpdoc-parser": "^2",
         "phpstan/phpstan": "^2",
         "phpunit/phpunit": "^12",

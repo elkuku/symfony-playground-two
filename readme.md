@@ -39,6 +39,10 @@ start and stop the environment.
 make tests
 ```
 
+## Database
+
+![Database Diagram](assets/docs/database.svg)
+
 ----
 
 Happy coding `=;)`

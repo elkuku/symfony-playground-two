@@ -50,6 +50,9 @@
             "config/packages/google_apiclient.yaml"
         ]
     },
+    "jawira/doctrine-diagram-bundle": {
+        "version": "dev-main"
+    },
     "knpuniversity/oauth2-client-bundle": {
         "version": "2.16",
         "recipe": {

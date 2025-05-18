@@ -158,6 +158,14 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/ux-twig-component" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/staabm/side-effects-detector" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php84" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/db-draw" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/doctrine-diagram-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/doctrine-diagram-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/entity-draw" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/plantuml-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/plantuml-encoding" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/plantuml-to-image" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/the-lost-functions" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

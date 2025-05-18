@@ -165,6 +165,14 @@
       <path value="$PROJECT_DIR$/vendor/symfony/ux-twig-component" />
       <path value="$PROJECT_DIR$/vendor/staabm/side-effects-detector" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php84" />
+      <path value="$PROJECT_DIR$/vendor/jawira/entity-draw" />
+      <path value="$PROJECT_DIR$/vendor/jawira/plantuml-client" />
+      <path value="$PROJECT_DIR$/vendor/jawira/the-lost-functions" />
+      <path value="$PROJECT_DIR$/vendor/jawira/doctrine-diagram-contracts" />
+      <path value="$PROJECT_DIR$/vendor/jawira/db-draw" />
+      <path value="$PROJECT_DIR$/vendor/jawira/plantuml-encoding" />
+      <path value="$PROJECT_DIR$/vendor/jawira/doctrine-diagram-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jawira/plantuml-to-image" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
