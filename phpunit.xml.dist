@@ -7,6 +7,8 @@
          colors="true"
          failOnNotice="true"
          failOnWarning="true"
+         failOnDeprecation="false"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
          bootstrap="tests/bootstrap.php"
          cacheDirectory=".phpunit.cache"
 >
@@ -30,5 +32,9 @@
     </source>
 
     <extensions>
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension">
+            <parameter name="clock-mock-namespaces" value="App" />
+            <parameter name="dns-mock-namespaces" value="App" />
+        </bootstrap>
     </extensions>
 </phpunit>
