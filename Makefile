@@ -9,6 +9,7 @@ tests:
 	symfony php vendor/bin/phpunit --testdox $@
 	vendor/bin/phpstan --memory-limit=256M
 	vendor/bin/rector process --dry-run
+	vendor/bin/php-cs-fixer check --diff
 .PHONY: tests
 citests: export APP_ENV=test
 citests:
@@ -18,3 +19,4 @@ citests:
 	vendor/bin/phpunit --testdox
 	vendor/bin/phpstan
 	vendor/bin/rector process --dry-run
+	vendor/bin/php-cs-fixer check --diff
