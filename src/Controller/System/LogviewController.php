@@ -22,8 +22,7 @@ class LogviewController extends BaseController
     public function __invoke(
         #[Autowire('%kernel.project_dir%')] string $projectDir,
         KernelInterface                            $kernel
-    ): Response
-    {
+    ): Response {
         $filesystem = new Filesystem();
         $filename = $projectDir . '/var/log/deploy.log';
 
@@ -37,9 +36,9 @@ class LogviewController extends BaseController
             }
 
             $contents = $filesystem->readFile($filename);
-            $lines = explode("\n", $contents);
+            $lines = \explode("\n", $contents);
             foreach ($lines as $line) {
-                $line = trim($line);
+                $line = \trim($line);
                 if ($line === '') {
                     continue;
                 }
@@ -48,8 +47,8 @@ class LogviewController extends BaseController
                     continue;
                 }
 
-                if (str_starts_with($line, '>>>==============')) {
-                    if (is_null($entry)) {
+                if (\str_starts_with($line, '>>>==============')) {
+                    if (\is_null($entry)) {
                         $entry = '';
                     } else {
                         throw new \LogicException('Entry finished string not found');
@@ -58,8 +57,8 @@ class LogviewController extends BaseController
                     continue;
                 }
 
-                if (str_starts_with($line, '<<<===========')) {
-                    if (is_null($entry)) {
+                if (\str_starts_with($line, '<<<===========')) {
+                    if (\is_null($entry)) {
                         throw new \LogicException('Entry not started.');
                     }
 
@@ -93,7 +92,7 @@ class LogviewController extends BaseController
 
         return $this->render('system/logview.html.twig', [
             'project_dir' => $projectDir,
-            'logEntries' => array_reverse($entries),
+            'logEntries' => \array_reverse($entries),
         ]);
     }
 }

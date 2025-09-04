@@ -107,7 +107,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
         Request $request,
         AuthenticationException $exception,
     ): RedirectResponse {
-        $message = strtr(
+        $message = \strtr(
             $exception->getMessageKey(),
             $exception->getMessageData()
         );

@@ -90,7 +90,7 @@ class User implements UserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = self::ROLES['user'];
 
-        return array_unique($roles);
+        return \array_unique($roles);
     }
 
     /**
@@ -113,7 +113,7 @@ class User implements UserInterface
 
     public function getParam(string $name): string
     {
-        return $this->params && array_key_exists($name, $this->params)
+        return $this->params && \array_key_exists($name, $this->params)
             ? $this->params[$name]
             : '';
     }

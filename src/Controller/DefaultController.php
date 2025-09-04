@@ -12,8 +12,7 @@ class DefaultController extends BaseController
 {
     public function __invoke(
         #[Autowire('%kernel.project_dir%')] string $projectDir,
-    ): Response
-    {
+    ): Response {
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',
             'php_version' => PHP_VERSION,

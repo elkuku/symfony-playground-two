@@ -20,8 +20,7 @@ class AboutController extends BaseController
     public function __invoke(
         #[Autowire('%kernel.project_dir%')] string $projectDir,
         KernelInterface                            $kernel
-    ): Response
-    {
+    ): Response {
         $output = new BufferedOutput();
 
         $application = new Application($kernel);
