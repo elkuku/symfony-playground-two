@@ -166,6 +166,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/plantuml-encoding" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/plantuml-to-image" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/the-lost-functions" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-cs-fixer/shim" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
