@@ -53,7 +53,7 @@ class User implements UserInterface
 
     /**
      * @return array{
-     *     id: integer|null,
+     *     id: int|null,
      *     identifier: string|null
      * }
      */

@@ -36,7 +36,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
     #[\Override]
     public function supports(Request $request): bool
     {
-        return $request->getPathInfo() === '/connect/google/verify';
+        return '/connect/google/verify' === $request->getPathInfo();
     }
 
     #[\Override]
@@ -44,7 +44,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
     {
         $idToken = (string) $request->request->get('credential');
 
-        if ($idToken === '' || $idToken === '0') {
+        if ('' === $idToken || '0' === $idToken) {
             throw new AuthenticationException('Missing credentials :(');
         }
 
@@ -105,7 +105,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
             ['googleId' => $googleUser->getId()]
         );
 
-        if ($user !== null) {
+        if (null !== $user) {
             return $user;
         }
 

@@ -36,7 +36,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
     #[\Override]
     public function supports(Request $request): bool
     {
-        return $request->getPathInfo() === '/connect/google/check';
+        return '/connect/google/check' === $request->getPathInfo();
     }
 
     /**
@@ -70,7 +70,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
             ['googleId' => $googleUser->getId()]
         );
 
-        if ($user !== null) {
+        if (null !== $user) {
             return $user;
         }
 

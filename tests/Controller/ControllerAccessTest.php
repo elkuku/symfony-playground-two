@@ -6,7 +6,7 @@ use Elkuku\SymfonyUtils\Test\ControllerBaseTest;
 
 class ControllerAccessTest extends ControllerBaseTest
 {
-    protected string $controllerRoot = __DIR__ . '/../../src/Controller';
+    protected string $controllerRoot = __DIR__.'/../../src/Controller';
 
     /**
      * @var array<int, string>

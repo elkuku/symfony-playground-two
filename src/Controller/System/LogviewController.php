@@ -21,10 +21,10 @@ class LogviewController extends BaseController
 {
     public function __invoke(
         #[Autowire('%kernel.project_dir%')] string $projectDir,
-        KernelInterface                            $kernel
+        KernelInterface $kernel
     ): Response {
         $filesystem = new Filesystem();
-        $filename = $projectDir . '/var/log/deploy.log';
+        $filename = $projectDir.'/var/log/deploy.log';
 
         $entries = [];
         $entry = null;
@@ -39,11 +39,11 @@ class LogviewController extends BaseController
             $lines = \explode("\n", $contents);
             foreach ($lines as $line) {
                 $line = \trim($line);
-                if ($line === '') {
+                if ('' === $line) {
                     continue;
                 }
 
-                if ($line === '0') {
+                if ('0' === $line) {
                     continue;
                 }
 
@@ -69,20 +69,18 @@ class LogviewController extends BaseController
                 }
 
                 if ('' === $entry) {
-                    //The first line contains the dateTime string
+                    // The first line contains the dateTime string
                     $dateTime = $line;
-                    $entry = $line . "\n";
+                    $entry = $line."\n";
 
                     continue;
                 }
 
-                $entry .= $line . "\n";
+                $entry .= $line."\n";
             }
-
         } catch (IOException $ioException) {
             $this->addFlash('danger', $ioException->getMessage());
         }
-
 
         $output = new BufferedOutput();
 

@@ -14,7 +14,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use UnexpectedValueException;
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -36,7 +35,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate(Request $request): Passport
     {
         if (false === \in_array($this->appEnv, ['dev', 'test'])) {
-            throw new UnexpectedValueException('GTFO!');
+            throw new \UnexpectedValueException('GTFO!');
         }
 
         return new SelfValidatingPassport(
