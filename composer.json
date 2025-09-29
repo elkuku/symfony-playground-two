@@ -98,9 +98,7 @@
             "echo 'Check for outdated PHP deps:'",
             "composer outdated",
             "echo 'Check for outdated Recipes:'",
-            "composer recipes:update",
-            "echo 'Check style:'",
-            "vendor/bin/php-cs-fixer check"
+            "composer recipes:update"
             ]
     },
     "conflict": {
