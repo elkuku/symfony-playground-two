@@ -27,6 +27,8 @@ doctrine:
         controller_resolver:
             auto_mapping: false
 
+        enable_native_lazy_objects: true
+
 when@test:
     doctrine:
         dbal:
