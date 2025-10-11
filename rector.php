@@ -3,13 +3,15 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Symfony\Set\SymfonySetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/src',
+        __DIR__.'/tests',
+    ])
+    ->withSkip([
+        __DIR__.'/tests/bootstrap.php',
     ])
     ->withPreparedSets(
         deadCode: true,
@@ -25,10 +27,5 @@ return RectorConfig::configure()
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
     ])
-    ->withSets([
-        SymfonySetList::SYMFONY_64,
-
-        SymfonySetList::SYMFONY_CODE_QUALITY,
-        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
-    ])
+    ->withComposerBased(symfony: true)
     ->withRootFiles();
