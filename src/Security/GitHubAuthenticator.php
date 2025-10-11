@@ -83,7 +83,7 @@ class GitHubAuthenticator extends AbstractAuthenticator
             $user->setGitHubId($resourceOwner->getId());
         } else {
             // Register new user
-            $user = (new User())
+            $user = new User()
                 ->setIdentifier((string) $resourceOwner->getNickname())
                 ->setGitHubId($resourceOwner->getId());
         }

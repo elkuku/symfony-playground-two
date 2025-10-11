@@ -12,12 +12,12 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $manager->persist(
-            (new User())
+            new User()
                 ->setIdentifier('user')
         );
 
         $manager->persist(
-            (new User())
+            new User()
                 ->setIdentifier('admin')
                 ->setRoles([User::ROLES['admin']])
         );
