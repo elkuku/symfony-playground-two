@@ -10,6 +10,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Enum\UserRole;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -32,7 +33,7 @@ class UserRepository extends ServiceEntityRepository
     public function findUsers(): array
     {
         return $this->findBy(
-            ['role' => User::ROLES['user']],
+            ['role' => UserRole::USER],
             ['id' => 'ASC']
         );
     }
