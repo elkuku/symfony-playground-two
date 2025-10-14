@@ -99,7 +99,10 @@
             "composer outdated",
             "echo 'Check for outdated Recipes:'",
             "composer recipes:update"
-            ]
+            ],
+        "db-diagram": [
+            "bin/console doctrine:diagram:class --filename=assets/docs/database.svg"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"
