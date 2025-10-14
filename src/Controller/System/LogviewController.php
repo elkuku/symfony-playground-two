@@ -3,7 +3,7 @@
 namespace App\Controller\System;
 
 use App\Controller\BaseController;
-use App\Entity\User;
+use App\Enum\UserRole;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/system/logview', name: 'app_system_logview', methods: ['GET'])]
-#[IsGranted(User::ROLES['admin'])]
+#[IsGranted(UserRole::ADMIN->value)]
 class LogviewController extends BaseController
 {
     public function __invoke(

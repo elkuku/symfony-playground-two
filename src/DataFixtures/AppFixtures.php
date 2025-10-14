@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Enum\UserRole;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -19,7 +20,7 @@ class AppFixtures extends Fixture
         $manager->persist(
             new User()
                 ->setIdentifier('admin')
-                ->setRoles([User::ROLES['admin']])
+                ->setRole(UserRole::ADMIN)
         );
 
         $manager->flush();

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Enum\UserRole;
 use App\Form\UserParamsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/profile', name: 'app_profile', methods: ['GET', 'POST'])]
-#[IsGranted(User::ROLES['user'])]
+#[IsGranted(UserRole::USER->value)]
 class ProfileController extends BaseController
 {
     public function __invoke(Request $request, EntityManagerInterface $entityManager): Response

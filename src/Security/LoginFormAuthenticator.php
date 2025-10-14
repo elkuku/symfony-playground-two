@@ -28,7 +28,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     #[\Override]
     protected function getLoginUrl(Request $request): string
     {
-        return $this->router->generate('login');
+        return $this->router->generate('app_login');
     }
 
     #[\Override]

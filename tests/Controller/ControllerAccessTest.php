@@ -28,7 +28,7 @@ class ControllerAccessTest extends ControllerBaseTest
             'app_default' => [
                 'statusCodes' => ['GET' => 200],
             ],
-            'login' => [
+            'app_login' => [
                 'statusCodes' => ['GET' => 200],
             ],
         ];

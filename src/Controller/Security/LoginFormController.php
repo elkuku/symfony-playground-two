@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+#[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
 class LoginFormController extends AbstractController
 {
-    #[Route('/login', name: 'login', methods: ['GET', 'POST'])]
-    public function login(
+    public function __invoke(
         AuthenticationUtils $authenticationUtils,
         #[Autowire('%env(OAUTH_GOOGLE_ID)%')] string $oauthGoogleId,
     ): Response {
@@ -23,10 +23,5 @@ class LoginFormController extends AbstractController
                 'oauthGoogleId' => $oauthGoogleId,
             ]
         );
-    }
-
-    #[Route('/logout', name: 'logout', methods: ['GET'])]
-    public function logout(): void
-    {
     }
 }
