@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
@@ -38,8 +39,14 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             throw new \UnexpectedValueException('GTFO!');
         }
 
+        $identifier = (string) $request->request->get('identifier');
+
+        if ('' === $identifier) {
+            throw new AuthenticationException('User identifier cannot be empty.');
+        }
+
         return new SelfValidatingPassport(
-            new UserBadge((string) $request->request->get('identifier')),
+            new UserBadge($identifier),
             [
                 new CsrfTokenBadge(
                     'login',

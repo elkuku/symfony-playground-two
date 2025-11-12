@@ -24,7 +24,7 @@ class User implements UserInterface
     public ?int $id = 0;
 
     #[Column(unique: true), NotBlank]
-    private string $identifier = '';
+    private ?string $identifier = null;
 
     #[Column(type: Types::STRING, length: 50, enumType: UserRole::class)]
     #[Assert\NotNull]
@@ -118,7 +118,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): ?string
     {
         return $this->identifier;
     }
