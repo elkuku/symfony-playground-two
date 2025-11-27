@@ -168,6 +168,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/jawira/the-lost-functions" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-cs-fixer/shim" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/elkuku/kuku-sf-system-tools-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php85" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
