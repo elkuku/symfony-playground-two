@@ -17,4 +17,5 @@ return [
     Symfony\UX\Icons\UXIconsBundle::class => ['all' => true],
     Symfony\UX\TwigComponent\TwigComponentBundle::class => ['all' => true],
     Jawira\DoctrineDiagramBundle\DoctrineDiagramBundle::class => ['dev' => true, 'test' => true],
+    KuKu\SFSystemToolsBundle\KuKuSFSystemToolsBundle::class => ['all' => true],
 ];

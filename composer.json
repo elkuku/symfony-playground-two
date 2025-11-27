@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^3",
+        "elkuku/kuku-sf-system-tools-bundle": "^1.1",
         "elkuku/symfony-utils": "^0.3",
         "google/apiclient": "^2.15",
         "knpuniversity/oauth2-client-bundle": "^v2.17.0",
