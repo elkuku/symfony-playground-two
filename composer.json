@@ -10,10 +10,10 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^3.0",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3",
         "elkuku/kuku-sf-system-tools-bundle": "^1.1",
-        "elkuku/symfony-utils": "^0.3",
+        "elkuku/symfony-utils": "^0.4",
         "google/apiclient": "^2.15",
         "knpuniversity/oauth2-client-bundle": "^v2.17.0",
         "league/oauth2-github": "^3.1",
@@ -34,7 +34,7 @@
         "symfony/intl": "*",
         "symfony/mailer": "*",
         "symfony/mime": "*",
-        "symfony/monolog-bundle": "^3.0",
+        "symfony/monolog-bundle": "^4.0",
         "symfony/notifier": "*",
         "symfony/process": "*",
         "symfony/property-access": "*",
@@ -53,6 +53,23 @@
         "symfony/yaml": "*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.0",
+        "friendsofphp/php-cs-fixer": "^3.86",
+        "jawira/doctrine-diagram-bundle": "dev-main",
+        "phpstan/phpdoc-parser": "^2",
+        "phpstan/phpstan": "^2",
+        "phpunit/phpunit": "^12",
+        "rector/rector": "^2",
+        "roave/security-advisories": "dev-latest",
+        "symfony/browser-kit": "*",
+        "symfony/css-selector": "*",
+        "symfony/debug-bundle": "*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^8.0",
+        "symfony/stopwatch": "*",
+        "symfony/web-profiler-bundle": "*"
     },
     "config": {
         "allow-plugins": {
@@ -111,24 +128,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "7.4.*"
+            "require": "8.0.*"
         }
-    },
-    "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^4.0",
-        "friendsofphp/php-cs-fixer": "^3.86",
-        "jawira/doctrine-diagram-bundle": "dev-main",
-        "phpstan/phpdoc-parser": "^2",
-        "phpstan/phpstan": "^2",
-        "phpunit/phpunit": "^12",
-        "rector/rector": "^2",
-        "roave/security-advisories": "dev-latest",
-        "symfony/browser-kit": "*",
-        "symfony/css-selector": "*",
-        "symfony/debug-bundle": "*",
-        "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^7.0",
-        "symfony/stopwatch": "*",
-        "symfony/web-profiler-bundle": "*"
     }
 }
