@@ -40,7 +40,7 @@ bin/stop
 make tests
 ```
 
-## Check for updated
+## Check for updates
 Check four outdated PHP deps, recipes and assets.
 
 ```shell
