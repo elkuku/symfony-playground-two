@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a01e0f0c835dda6bd6c02eed6be742e",
+    "content-hash": "66fb185c8936cbb0e1a80c8d0d283878",
     "packages": [
         {
             "name": "composer/semver",
@@ -1264,6 +1264,54 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "elkuku/kuku-sf-system-tools-bundle",
+            "version": "1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elkuku/SFSystemToolsBundle.git",
+                "reference": "3e3264d6315230cd6501a32289b60b2345de3400"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elkuku/SFSystemToolsBundle/zipball/3e3264d6315230cd6501a32289b60b2345de3400",
+                "reference": "3e3264d6315230cd6501a32289b60b2345de3400",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "symfony/config": "^7.2|^8.0",
+                "symfony/dependency-injection": "^7.2|^8.0",
+                "symfony/framework-bundle": "^7.2|^8.0",
+                "symfony/http-kernel": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^12",
+                "symplify/config-transformer": "^12.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "KuKu\\SFSystemToolsBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Nikolai Plath",
+                    "email": "der.el.kuku@gmail.com"
+                }
+            ],
+            "description": "System tools for Symfony",
+            "support": {
+                "issues": "https://github.com/elkuku/SFSystemToolsBundle/issues",
+                "source": "https://github.com/elkuku/SFSystemToolsBundle/tree/1.3"
+            },
+            "time": "2025-12-09T19:44:46+00:00"
         },
         {
             "name": "elkuku/symfony-utils",
@@ -10616,12 +10664,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "eeebba0043eaddd36fd8747cc144b9b661d9b392"
+                "reference": "75d4ccd9c135c4ac904cd4211a43e51d12feb1ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/eeebba0043eaddd36fd8747cc144b9b661d9b392",
-                "reference": "eeebba0043eaddd36fd8747cc144b9b661d9b392",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/75d4ccd9c135c4ac904cd4211a43e51d12feb1ef",
+                "reference": "75d4ccd9c135c4ac904cd4211a43e51d12feb1ef",
                 "shasum": ""
             },
             "conflict": {
@@ -10873,6 +10921,7 @@
                 "feehi/feehicms": "<=2.1.1",
                 "fenom/fenom": "<=2.12.1",
                 "filament/actions": ">=3.2,<3.2.123",
+                "filament/filament": ">=4,<4.3.1",
                 "filament/infolists": ">=3,<3.2.115",
                 "filament/tables": ">=3,<3.2.115",
                 "filegator/filegator": "<7.8",
@@ -11127,6 +11176,7 @@
                 "netgen/tagsbundle": ">=3.4,<3.4.11|>=4,<4.0.15",
                 "nette/application": ">=2,<2.0.19|>=2.1,<2.1.13|>=2.2,<2.2.10|>=2.3,<2.3.14|>=2.4,<2.4.16|>=3,<3.0.6",
                 "nette/nette": ">=2,<2.0.19|>=2.1,<2.1.13",
+                "neuron-core/neuron-ai": "<=2.8.11",
                 "nilsteampassnet/teampass": "<3.1.3.1-dev",
                 "nitsan/ns-backup": "<13.0.1",
                 "nonfiction/nterchange": "<4.1.1",
@@ -11146,7 +11196,7 @@
                 "october/system": "<3.7.5",
                 "oliverklee/phpunit": "<3.5.15",
                 "omeka/omeka-s": "<4.0.3",
-                "onelogin/php-saml": "<2.10.4",
+                "onelogin/php-saml": "<2.21.1|>=3,<3.8.1|>=4,<4.3.1",
                 "oneup/uploader-bundle": ">=1,<1.9.3|>=2,<2.1.5",
                 "open-web-analytics/open-web-analytics": "<1.8.1",
                 "opencart/opencart": ">=0",
@@ -11280,8 +11330,8 @@
                 "shopware/core": "<6.6.10.9-dev|>=6.7,<6.7.4.1-dev",
                 "shopware/platform": "<6.6.10.7-dev|>=6.7,<6.7.3.1-dev",
                 "shopware/production": "<=6.3.5.2",
-                "shopware/shopware": "<=5.7.17|>=6.7,<6.7.2.1-dev",
-                "shopware/storefront": "<=6.4.8.1|>=6.5.8,<6.5.8.7-dev",
+                "shopware/shopware": "<=5.7.17|>=6.4.6,<6.6.10.10-dev|>=6.7,<6.7.5.1-dev",
+                "shopware/storefront": "<6.6.10.10-dev|>=6.7,<6.7.5.1-dev",
                 "shopxo/shopxo": "<=6.4",
                 "showdoc/showdoc": "<2.10.4",
                 "shuchkin/simplexlsx": ">=1.0.12,<1.1.13",
@@ -11608,7 +11658,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-08T23:05:37+00:00"
+            "time": "2025-12-09T18:07:05+00:00"
         },
         {
             "name": "sebastian/cli-parser",

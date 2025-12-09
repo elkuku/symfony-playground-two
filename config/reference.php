@@ -1499,6 +1499,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         server?: scalar|null, // Default: "http://www.plantuml.com/plantuml"
  *     },
  * }
+ * @psalm-type KukuSfSystemToolsConfig = array{
+ *     expose_sf_version?: bool, // Default: false
+ *     expose_php_version?: bool, // Default: false
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1514,6 +1518,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     stimulus?: StimulusConfig,
  *     ux_icons?: UxIconsConfig,
  *     twig_component?: TwigComponentConfig,
+ *     kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1533,6 +1538,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         ux_icons?: UxIconsConfig,
  *         twig_component?: TwigComponentConfig,
  *         doctrine_diagram?: DoctrineDiagramConfig,
+ *         kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1549,6 +1555,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         stimulus?: StimulusConfig,
  *         ux_icons?: UxIconsConfig,
  *         twig_component?: TwigComponentConfig,
+ *         kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1567,6 +1574,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         ux_icons?: UxIconsConfig,
  *         twig_component?: TwigComponentConfig,
  *         doctrine_diagram?: DoctrineDiagramConfig,
+ *         kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
