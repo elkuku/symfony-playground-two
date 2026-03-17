@@ -6,11 +6,13 @@ use Elkuku\SymfonyUtils\Test\ControllerBaseTest;
 
 class ControllerAccessTest extends ControllerBaseTest
 {
+    #[\Override]
     protected string $controllerRoot = __DIR__.'/../../src/Controller';
 
     /**
      * @var array<int, string>
      */
+    #[\Override]
     protected array $ignoredFiles
         = [
             '.gitignore',
@@ -23,6 +25,7 @@ class ControllerAccessTest extends ControllerBaseTest
     /**
      * @var array<string, array<string, array<string, int>>>
      */
+    #[\Override]
     protected array $exceptions
         = [
             'app_default' => [

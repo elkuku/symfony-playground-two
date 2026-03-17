@@ -35,7 +35,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     #[\Override]
     public function authenticate(Request $request): Passport
     {
-        if (false === \in_array($this->appEnv, ['dev', 'test'])) {
+        if (false === \in_array($this->appEnv, ['dev', 'test'], true)) {
             throw new \UnexpectedValueException('GTFO!');
         }
 
