@@ -32,7 +32,6 @@ class UserAdminCommandTest extends TestCase
         $roles = $method->invoke($this->command);
 
         self::assertSame(UserRole::cases(), $roles);
-        self::assertCount(\count(UserRole::cases()), $roles);
     }
 
     public function testSetRoleAssignsUserRole(): void
