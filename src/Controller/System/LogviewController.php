@@ -107,7 +107,11 @@ class LogviewController extends BaseController
             throw new \LogicException('Entry not started.');
         }
 
-        $entries[(string) $dateTime] = $entry;
+        if (null === $dateTime) {
+            throw new \LogicException('Entry has no dateTime.');
+        }
+
+        $entries[$dateTime] = $entry;
 
         return [$entries, null];
     }

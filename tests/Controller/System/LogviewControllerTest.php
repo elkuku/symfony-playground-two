@@ -58,6 +58,26 @@ class LogviewControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
+    public function testCloseEntryThrowsOnMissingDateTime(): void
+    {
+        \file_put_contents($this->logFile, \implode("\n", [
+            '>>>==============',
+            '<<<===========',
+        ]));
+
+        $client = static::createClient();
+
+        /** @var UserRepository $userRepository */
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['identifier' => 'admin']);
+        self::assertNotNull($user);
+
+        $client->loginUser($user);
+        $client->request(Request::METHOD_GET, '/system/logview');
+
+        self::assertResponseStatusCodeSame(500);
+    }
+
     public function testAdminSeesLogEntries(): void
     {
         \file_put_contents($this->logFile, \implode("\n", [
