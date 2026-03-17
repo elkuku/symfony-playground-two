@@ -7,7 +7,9 @@ use App\Repository\UserRepository;
 use App\Security\GoogleAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Provider\GoogleUser;
+use League\OAuth2\Client\Token\AccessToken;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +18,13 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class GoogleAuthenticatorTest extends TestCase
 {
     private GoogleAuthenticator $authenticator;
+
+    private ClientRegistry&MockObject $clientRegistry;
 
     private UserRepository&MockObject $userRepository;
 
@@ -29,12 +34,13 @@ class GoogleAuthenticatorTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->clientRegistry = $this->createMock(ClientRegistry::class);
         $this->userRepository = $this->createMock(UserRepository::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
 
         $this->authenticator = new GoogleAuthenticator(
-            $this->createMock(ClientRegistry::class),
+            $this->clientRegistry,
             $this->entityManager,
             $this->userRepository,
             $this->urlGenerator,
@@ -51,6 +57,30 @@ class GoogleAuthenticatorTest extends TestCase
     {
         self::assertFalse($this->authenticator->supports(Request::create('/')));
         self::assertFalse($this->authenticator->supports(Request::create('/connect/google/verify')));
+    }
+
+    public function testAuthenticateReturnsPassport(): void
+    {
+        $accessToken = $this->createMock(AccessToken::class);
+
+        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser->method('getId')->willReturn('google-789');
+
+        $oauthClient = $this->createMock(OAuth2ClientInterface::class);
+        $oauthClient->method('getAccessToken')->willReturn($accessToken);
+        $oauthClient->method('fetchUserFromToken')->with($accessToken)->willReturn($googleUser);
+
+        $this->clientRegistry->method('getClient')->with('google')->willReturn($oauthClient);
+
+        $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('google-789');
+        $this->userRepository->method('findOneBy')->willReturn($existingUser);
+
+        $request = Request::create('/connect/google/check');
+        $request->setSession(new Session(new MockArraySessionStorage()));
+
+        $passport = $this->authenticator->authenticate($request);
+
+        self::assertInstanceOf(SelfValidatingPassport::class, $passport);
     }
 
     public function testGetUserReturnsExistingUserByGoogleId(): void
@@ -108,12 +138,29 @@ class GoogleAuthenticatorTest extends TestCase
         self::assertSame('/admin', $response->getTargetUrl());
     }
 
-    public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
+    public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->method('generate')->willReturn('/login');
+        $this->urlGenerator->method('generate')->with('default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
+
+        $response = $this->authenticator->onAuthenticationSuccess(
+            $request,
+            $this->createMock(TokenInterface::class),
+            'main'
+        );
+
+        self::assertSame('/', $response->getTargetUrl());
+    }
+
+    public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
+    {
+        $this->urlGenerator->method('generate')->with('login')->willReturn('/login');
+
+        $session = new Session(new MockArraySessionStorage());
+        $request = new Request();
+        $request->setSession($session);
 
         $response = $this->authenticator->onAuthenticationFailure(
             $request,
@@ -121,5 +168,6 @@ class GoogleAuthenticatorTest extends TestCase
         );
 
         self::assertSame('/login', $response->getTargetUrl());
+        self::assertNotEmpty($session->getFlashBag()->get('danger'));
     }
 }
