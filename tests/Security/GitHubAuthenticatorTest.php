@@ -7,7 +7,9 @@ use App\Repository\UserRepository;
 use App\Security\GitHubAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Provider\GithubResourceOwner;
+use League\OAuth2\Client\Token\AccessToken;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +18,13 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class GitHubAuthenticatorTest extends TestCase
 {
     private GitHubAuthenticator $authenticator;
+
+    private ClientRegistry&MockObject $clientRegistry;
 
     private UserRepository&MockObject $userRepository;
 
@@ -29,16 +34,41 @@ class GitHubAuthenticatorTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->clientRegistry = $this->createMock(ClientRegistry::class);
         $this->userRepository = $this->createMock(UserRepository::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
 
         $this->authenticator = new GitHubAuthenticator(
-            $this->createMock(ClientRegistry::class),
+            $this->clientRegistry,
             $this->entityManager,
             $this->userRepository,
             $this->urlGenerator,
         );
+    }
+
+    public function testAuthenticateReturnsPassport(): void
+    {
+        $accessToken = $this->createMock(AccessToken::class);
+
+        $owner = $this->createMock(GithubResourceOwner::class);
+        $owner->method('getId')->willReturn(99);
+
+        $oauthClient = $this->createMock(OAuth2ClientInterface::class);
+        $oauthClient->method('getAccessToken')->willReturn($accessToken);
+        $oauthClient->method('fetchUserFromToken')->with($accessToken)->willReturn($owner);
+
+        $this->clientRegistry->method('getClient')->with('github')->willReturn($oauthClient);
+
+        $existingUser = new User()->setIdentifier('ghuser')->setGitHubId(99);
+        $this->userRepository->method('findOneBy')->willReturn($existingUser);
+
+        $request = Request::create('/connect/check/github');
+        $request->setSession(new Session(new MockArraySessionStorage()));
+
+        $passport = $this->authenticator->authenticate($request);
+
+        self::assertInstanceOf(SelfValidatingPassport::class, $passport);
     }
 
     public function testSupportsGitHubCheckPath(): void
