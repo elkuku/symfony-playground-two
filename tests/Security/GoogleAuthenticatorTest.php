@@ -103,6 +103,30 @@ class GoogleAuthenticatorTest extends TestCase
         self::assertSame($existingUser, $result);
     }
 
+    public function testGetUserLinksExistingAccountByEmail(): void
+    {
+        $existingUser = new User()->setIdentifier('shared@example.com');
+
+        $this->userRepository->method('findOneBy')
+            ->willReturnMap([
+                [['googleId' => 'google-456'], null],
+                [['identifier' => 'shared@example.com'], $existingUser],
+            ]);
+
+        $this->entityManager->expects(self::once())->method('persist');
+        $this->entityManager->expects(self::once())->method('flush');
+
+        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser->method('getId')->willReturn('google-456');
+        $googleUser->method('getEmail')->willReturn('shared@example.com');
+
+        $method = new \ReflectionMethod($this->authenticator, 'getUser');
+        $result = $method->invoke($this->authenticator, $googleUser);
+
+        self::assertSame($existingUser, $result);
+        self::assertSame('google-456', $result->getGoogleId());
+    }
+
     public function testGetUserCreatesNewUserWhenNotFound(): void
     {
         $this->userRepository->method('findOneBy')->willReturn(null);

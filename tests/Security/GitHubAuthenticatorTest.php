@@ -72,27 +72,28 @@ class GitHubAuthenticatorTest extends TestCase
         self::assertSame($existingUser, $result);
     }
 
-    public function testGetUserUpdatesGitHubIdForExistingUserByNickname(): void
+    public function testGetUserLinksExistingAccountByNickname(): void
     {
-        $existingUser = new User()->setIdentifier('githubuser');
+        $existingUser = new User()->setIdentifier('existinguser');
 
         $this->userRepository->method('findOneBy')
             ->willReturnMap([
-                [['gitHubId' => 99], null],
-                [['identifier' => 'githubuser'], $existingUser],
+                [['gitHubId' => 77], null],
+                [['identifier' => 'existinguser'], $existingUser],
             ]);
 
         $this->entityManager->expects(self::once())->method('persist');
         $this->entityManager->expects(self::once())->method('flush');
 
         $owner = $this->createMock(GithubResourceOwner::class);
-        $owner->method('getId')->willReturn(99);
-        $owner->method('getNickname')->willReturn('githubuser');
+        $owner->method('getId')->willReturn(77);
+        $owner->method('getNickname')->willReturn('existinguser');
 
         $method = new \ReflectionMethod($this->authenticator, 'getUser');
         $result = $method->invoke($this->authenticator, $owner);
 
-        self::assertSame(99, $result->getGitHubId());
+        self::assertSame($existingUser, $result);
+        self::assertSame(77, $result->getGitHubId());
     }
 
     public function testGetUserCreatesNewUserWhenNotFound(): void

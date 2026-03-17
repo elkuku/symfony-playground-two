@@ -35,7 +35,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 path: /
-                always_remember_me: true
+                always_remember_me: false
                 name: S3C0DERREMEMBERME
 
             # Activate different ways to authenticate:

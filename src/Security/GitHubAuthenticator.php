@@ -74,19 +74,11 @@ class GitHubAuthenticator extends AbstractAuthenticator
             return $user;
         }
 
-        // @todo remove: Fetch user by identifier
-        if (($user = $this->userRepository->findOneBy(
-            ['identifier' => $resourceOwner->getNickname()]
-        )) !== null
-        ) {
-            // @todo remove: Update existing users GitHub id
-            $user->setGitHubId($resourceOwner->getId());
-        } else {
-            // Register new user
-            $user = new User()
-                ->setIdentifier((string) $resourceOwner->getNickname())
-                ->setGitHubId($resourceOwner->getId());
-        }
+        // Link to existing account with same nickname, or register a new user
+        $user = $this->userRepository->findOneBy(['identifier' => $resourceOwner->getNickname()])
+            ?? new User()->setIdentifier((string) $resourceOwner->getNickname());
+
+        $user->setGitHubId($resourceOwner->getId());
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
