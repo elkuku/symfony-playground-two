@@ -21,7 +21,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class User implements UserInterface
 {
     #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
-    public ?int $id = 0;
+    public ?int $id = 0 {
+        get {
+            return $this->id;
+        }
+    }
 
     #[Column(unique: true), NotBlank]
     private ?string $identifier = null;
@@ -70,11 +74,6 @@ class User implements UserInterface
     {
         $this->id = $data['id'] ?? null;
         $this->identifier = (string) ($data['identifier'] ?? null);
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     #[\Override]
@@ -175,7 +174,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setRole(UserRole $role): User
+    public function setRole(UserRole $role): self
     {
         $this->role = $role;
 

@@ -104,9 +104,9 @@ final class UserControllerTest extends WebTestCase
         $this->manager->persist($fixture);
         $this->manager->flush();
 
-        $id = $fixture->getId();
+        $id = $fixture->id;
 
-        $this->client->request('GET', \sprintf('%s%s/edit', $this->path, $fixture->getId()));
+        $this->client->request('GET', \sprintf('%s%s/edit', $this->path, $fixture->id));
         self::assertPageTitleContains('Edit User');
         $this->client->submitForm('Update', [
             'user[identifier]' => 'Something New',
