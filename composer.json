@@ -6,7 +6,7 @@
     "minimum-stability": "beta",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^3.0",
@@ -69,7 +69,8 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^8.0",
         "symfony/stopwatch": "*",
-        "symfony/web-profiler-bundle": "*"
+        "symfony/web-profiler-bundle": "*",
+        "tomasvotruba/cognitive-complexity": "^1.0"
     },
     "config": {
         "allow-plugins": {

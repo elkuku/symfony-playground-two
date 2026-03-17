@@ -23,61 +23,10 @@ class LogviewController extends BaseController
         #[Autowire('%kernel.project_dir%')] string $projectDir,
         KernelInterface $kernel
     ): Response {
-        $filesystem = new Filesystem();
-        $filename = $projectDir.'/var/log/deploy.log';
-
         $entries = [];
-        $entry = null;
-        $dateTime = null;
 
         try {
-            if (false === $filesystem->exists($filename)) {
-                throw new IOException('Log file not found!');
-            }
-
-            $contents = $filesystem->readFile($filename);
-            $lines = \explode("\n", $contents);
-            foreach ($lines as $line) {
-                $line = \trim($line);
-                if ('' === $line) {
-                    continue;
-                }
-
-                if ('0' === $line) {
-                    continue;
-                }
-
-                if (\str_starts_with($line, '>>>==============')) {
-                    if (\is_null($entry)) {
-                        $entry = '';
-                    } else {
-                        throw new \LogicException('Entry finished string not found');
-                    }
-
-                    continue;
-                }
-
-                if (\str_starts_with($line, '<<<===========')) {
-                    if (\is_null($entry)) {
-                        throw new \LogicException('Entry not started.');
-                    }
-
-                    $entries[(string) $dateTime] = $entry;
-                    $entry = null;
-
-                    continue;
-                }
-
-                if ('' === $entry) {
-                    // The first line contains the dateTime string
-                    $dateTime = $line;
-                    $entry = $line."\n";
-
-                    continue;
-                }
-
-                $entry .= $line."\n";
-            }
+            $entries = $this->parseLogEntries($projectDir.'/var/log/deploy.log');
         } catch (IOException $ioException) {
             $this->addFlash('danger', $ioException->getMessage());
         }
@@ -92,5 +41,74 @@ class LogviewController extends BaseController
             'project_dir' => $projectDir,
             'logEntries' => \array_reverse($entries),
         ]);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function parseLogEntries(string $filename): array
+    {
+        $filesystem = new Filesystem();
+
+        if (false === $filesystem->exists($filename)) {
+            throw new IOException('Log file not found!');
+        }
+
+        $entries = [];
+        $entry = null;
+        $dateTime = null;
+
+        $lines = \array_filter(
+            \array_map(trim(...), \explode("\n", $filesystem->readFile($filename))),
+            static fn (string $l): bool => '' !== $l && '0' !== $l,
+        );
+
+        foreach ($lines as $line) {
+            if (\str_starts_with($line, '>>>==============')) {
+                $entry = $this->openEntry($entry);
+                continue;
+            }
+
+            if (\str_starts_with($line, '<<<===========')) {
+                [$entries, $entry] = $this->closeEntry($entries, $entry, $dateTime);
+                continue;
+            }
+
+            if ('' === $entry) {
+                // The first line contains the dateTime string
+                $dateTime = $line;
+                $entry = $line."\n";
+                continue;
+            }
+
+            $entry .= $line."\n";
+        }
+
+        return $entries;
+    }
+
+    private function openEntry(?string $current): string
+    {
+        if (null !== $current) {
+            throw new \LogicException('Entry finished string not found');
+        }
+
+        return '';
+    }
+
+    /**
+     * @param array<string, string> $entries
+     *
+     * @return array{array<string, string>, null}
+     */
+    private function closeEntry(array $entries, ?string $entry, ?string $dateTime): array
+    {
+        if (null === $entry) {
+            throw new \LogicException('Entry not started.');
+        }
+
+        $entries[(string) $dateTime] = $entry;
+
+        return [$entries, null];
     }
 }
