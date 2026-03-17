@@ -28,7 +28,7 @@ class User implements UserInterface
     }
 
     #[Column(unique: true), NotBlank]
-    private ?string $identifier = null;
+    private string $identifier = '';
 
     #[Column(type: Types::STRING, length: 50, enumType: UserRole::class)]
     #[Assert\NotNull]
@@ -36,10 +36,10 @@ class User implements UserInterface
     private UserRole $role = UserRole::USER;
 
     /**
-     * @var array<string>|null
+     * @var array<string>
      */
     #[Column(type: Types::JSON, nullable: true)]
-    private ?array $params = [];
+    private array $params = [];
 
     #[Column(length: 100, nullable: true)]
     private ?string $googleId = null;
@@ -88,16 +88,16 @@ class User implements UserInterface
     }
 
     /**
-     * @return array<string>|null
+     * @return array<string>
      */
-    public function getParams(): ?array
+    public function getParams(): array
     {
         return $this->params;
     }
 
     public function getParam(string $name): string
     {
-        return $this->params && \array_key_exists($name, $this->params)
+        return \array_key_exists($name, $this->params)
             ? $this->params[$name]
             : '';
     }
@@ -112,7 +112,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIdentifier(): ?string
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
@@ -120,6 +120,10 @@ class User implements UserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
+        if ('' === $this->identifier) {
+            throw new \LogicException('User identifier is not set.');
+        }
+
         return $this->identifier;
     }
 
