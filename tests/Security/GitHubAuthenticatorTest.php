@@ -130,12 +130,29 @@ class GitHubAuthenticatorTest extends TestCase
         self::assertSame('/dashboard', $response->getTargetUrl());
     }
 
-    public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
+    public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->method('generate')->willReturn('/login');
+        $this->urlGenerator->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
+
+        $response = $this->authenticator->onAuthenticationSuccess(
+            $request,
+            $this->createMock(TokenInterface::class),
+            'main'
+        );
+
+        self::assertSame('/', $response->getTargetUrl());
+    }
+
+    public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
+    {
+        $this->urlGenerator->method('generate')->with('app_login')->willReturn('/login');
+
+        $session = new Session(new MockArraySessionStorage());
+        $request = new Request();
+        $request->setSession($session);
 
         $response = $this->authenticator->onAuthenticationFailure(
             $request,
@@ -143,5 +160,6 @@ class GitHubAuthenticatorTest extends TestCase
         );
 
         self::assertSame('/login', $response->getTargetUrl());
+        self::assertNotEmpty($session->getFlashBag()->get('danger'));
     }
 }

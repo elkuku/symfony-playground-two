@@ -140,7 +140,7 @@ class GoogleAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->method('generate')->with('default')->willReturn('/');
+        $this->urlGenerator->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
@@ -156,7 +156,7 @@ class GoogleAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
     {
-        $this->urlGenerator->method('generate')->with('login')->willReturn('/login');
+        $this->urlGenerator->method('generate')->with('app_login')->willReturn('/login');
 
         $session = new Session(new MockArraySessionStorage());
         $request = new Request();

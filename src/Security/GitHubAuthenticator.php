@@ -108,7 +108,7 @@ class GitHubAuthenticator extends AbstractAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('default'));
+        return new RedirectResponse($this->urlGenerator->generate('app_default'));
     }
 
     #[\Override]
@@ -127,6 +127,6 @@ class GitHubAuthenticator extends AbstractAuthenticator
         $session = $request->getSession();
         $session->getFlashBag()->add('danger', $message);
 
-        return new RedirectResponse($this->urlGenerator->generate('login'));
+        return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }
 }
