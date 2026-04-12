@@ -68,9 +68,9 @@ class GoogleAuthenticatorTest extends TestCase
 
         $oauthClient = $this->createMock(OAuth2ClientInterface::class);
         $oauthClient->method('getAccessToken')->willReturn($accessToken);
-        $oauthClient->method('fetchUserFromToken')->with($accessToken)->willReturn($googleUser);
+        $oauthClient->expects(self::any())->method('fetchUserFromToken')->with($accessToken)->willReturn($googleUser);
 
-        $this->clientRegistry->method('getClient')->with('google')->willReturn($oauthClient);
+        $this->clientRegistry->expects(self::any())->method('getClient')->with('google')->willReturn($oauthClient);
 
         $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('google-789');
         $this->userRepository->method('findOneBy')->willReturn($existingUser);
@@ -87,7 +87,7 @@ class GoogleAuthenticatorTest extends TestCase
     {
         $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('google-123');
 
-        $this->userRepository->method('findOneBy')
+        $this->userRepository->expects(self::any())->method('findOneBy')
             ->with(['googleId' => 'google-123'])
             ->willReturn($existingUser);
 
@@ -164,7 +164,7 @@ class GoogleAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->method('generate')->with('app_default')->willReturn('/');
+        $this->urlGenerator->expects(self::any())->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
@@ -180,7 +180,7 @@ class GoogleAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
     {
-        $this->urlGenerator->method('generate')->with('app_login')->willReturn('/login');
+        $this->urlGenerator->expects(self::any())->method('generate')->with('app_login')->willReturn('/login');
 
         $session = new Session(new MockArraySessionStorage());
         $request = new Request();

@@ -73,7 +73,7 @@ class LoginFormAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->router->method('generate')->with('app_default')->willReturn('/');
+        $this->router->expects(self::any())->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));

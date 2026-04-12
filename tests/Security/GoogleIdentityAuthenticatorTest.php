@@ -75,7 +75,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
     {
         $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('gid-123');
 
-        $this->userRepository->method('findOneBy')
+        $this->userRepository->expects(self::any())->method('findOneBy')
             ->with(['googleId' => 'gid-123'])
             ->willReturn($existingUser);
 
@@ -152,7 +152,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->method('generate')->with('app_default')->willReturn('/');
+        $this->urlGenerator->expects(self::any())->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
@@ -168,7 +168,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
     {
-        $this->urlGenerator->method('generate')->with('app_login')->willReturn('/login');
+        $this->urlGenerator->expects(self::any())->method('generate')->with('app_login')->willReturn('/login');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));

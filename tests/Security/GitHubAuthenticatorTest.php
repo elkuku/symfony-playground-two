@@ -56,9 +56,9 @@ class GitHubAuthenticatorTest extends TestCase
 
         $oauthClient = $this->createMock(OAuth2ClientInterface::class);
         $oauthClient->method('getAccessToken')->willReturn($accessToken);
-        $oauthClient->method('fetchUserFromToken')->with($accessToken)->willReturn($owner);
+        $oauthClient->expects(self::any())->method('fetchUserFromToken')->with($accessToken)->willReturn($owner);
 
-        $this->clientRegistry->method('getClient')->with('github')->willReturn($oauthClient);
+        $this->clientRegistry->expects(self::any())->method('getClient')->with('github')->willReturn($oauthClient);
 
         $existingUser = new User()->setIdentifier('ghuser')->setGitHubId(99);
         $this->userRepository->method('findOneBy')->willReturn($existingUser);
@@ -86,7 +86,7 @@ class GitHubAuthenticatorTest extends TestCase
     {
         $existingUser = new User()->setIdentifier('githubuser')->setGitHubId(42);
 
-        $this->userRepository->method('findOneBy')
+        $this->userRepository->expects(self::any())->method('findOneBy')
             ->with(['gitHubId' => 42])
             ->willReturn($existingUser);
 
@@ -163,7 +163,7 @@ class GitHubAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->method('generate')->with('app_default')->willReturn('/');
+        $this->urlGenerator->expects(self::any())->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
@@ -179,7 +179,7 @@ class GitHubAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
     {
-        $this->urlGenerator->method('generate')->with('app_login')->willReturn('/login');
+        $this->urlGenerator->expects(self::any())->method('generate')->with('app_login')->willReturn('/login');
 
         $session = new Session(new MockArraySessionStorage());
         $request = new Request();
