@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$finder = PhpCsFixer\Finder::create()
+$finder = new PhpCsFixer\Finder()
     ->in(__DIR__.'/src')
     ->in(__DIR__.'/tests')
     ->notName('bootstrap.php')
