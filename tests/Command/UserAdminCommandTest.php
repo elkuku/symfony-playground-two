@@ -16,8 +16,8 @@ class UserAdminCommandTest extends TestCase
     protected function setUp(): void
     {
         $this->command = new UserAdminCommand(
-            $this->createMock(EntityManagerInterface::class),
-            $this->createMock(UserRepository::class),
+            $this->createStub(EntityManagerInterface::class),
+            $this->createStub(UserRepository::class),
         );
     }
 

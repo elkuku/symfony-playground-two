@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Security\GoogleIdentityAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\GoogleUser;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
+#[AllowMockObjectsWithoutExpectations]
 class GoogleIdentityAuthenticatorTest extends TestCase
 {
     private GoogleIdentityAuthenticator $authenticator;
@@ -75,14 +77,14 @@ class GoogleIdentityAuthenticatorTest extends TestCase
     {
         $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('gid-123');
 
-        $this->userRepository->expects(self::any())->method('findOneBy')
+        $this->userRepository->expects(self::once())->method('findOneBy')
             ->with(['googleId' => 'gid-123'])
             ->willReturn($existingUser);
 
         $this->entityManager->expects(self::never())->method('persist');
         $this->entityManager->expects(self::never())->method('flush');
 
-        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser = $this->createStub(GoogleUser::class);
         $googleUser->method('getId')->willReturn('gid-123');
 
         $method = new \ReflectionMethod($this->authenticator, 'getUser');
@@ -104,7 +106,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
         $this->entityManager->expects(self::once())->method('persist');
         $this->entityManager->expects(self::once())->method('flush');
 
-        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser = $this->createStub(GoogleUser::class);
         $googleUser->method('getId')->willReturn('gid-999');
         $googleUser->method('getEmail')->willReturn('shared@example.com');
 
@@ -122,7 +124,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
         $this->entityManager->expects(self::once())->method('persist');
         $this->entityManager->expects(self::once())->method('flush');
 
-        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser = $this->createStub(GoogleUser::class);
         $googleUser->method('getId')->willReturn('gid-999');
         $googleUser->method('getEmail')->willReturn('brand@new.com');
 
@@ -143,7 +145,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 
         $response = $this->authenticator->onAuthenticationSuccess(
             $request,
-            $this->createMock(TokenInterface::class),
+            $this->createStub(TokenInterface::class),
             'main'
         );
 
@@ -152,14 +154,14 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->expects(self::any())->method('generate')->with('app_default')->willReturn('/');
+        $this->urlGenerator->expects(self::once())->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
 
         $response = $this->authenticator->onAuthenticationSuccess(
             $request,
-            $this->createMock(TokenInterface::class),
+            $this->createStub(TokenInterface::class),
             'main'
         );
 
@@ -168,7 +170,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
     {
-        $this->urlGenerator->expects(self::any())->method('generate')->with('app_login')->willReturn('/login');
+        $this->urlGenerator->expects(self::once())->method('generate')->with('app_login')->willReturn('/login');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));

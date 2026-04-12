@@ -3,6 +3,7 @@
 namespace App\Tests\Security;
 
 use App\Security\LoginFormAuthenticator;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
+#[AllowMockObjectsWithoutExpectations]
 class LoginFormAuthenticatorTest extends TestCase
 {
     private LoginFormAuthenticator $authenticator;
@@ -64,7 +66,7 @@ class LoginFormAuthenticatorTest extends TestCase
 
         $response = $this->authenticator->onAuthenticationSuccess(
             $request,
-            $this->createMock(TokenInterface::class),
+            $this->createStub(TokenInterface::class),
             'main'
         );
 
@@ -73,14 +75,14 @@ class LoginFormAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->router->expects(self::any())->method('generate')->with('app_default')->willReturn('/');
+        $this->router->expects(self::once())->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
 
         $response = $this->authenticator->onAuthenticationSuccess(
             $request,
-            $this->createMock(TokenInterface::class),
+            $this->createStub(TokenInterface::class),
             'main'
         );
 

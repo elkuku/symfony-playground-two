@@ -10,6 +10,7 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Provider\GoogleUser;
 use League\OAuth2\Client\Token\AccessToken;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
+#[AllowMockObjectsWithoutExpectations]
 class GoogleAuthenticatorTest extends TestCase
 {
     private GoogleAuthenticator $authenticator;
@@ -61,16 +63,16 @@ class GoogleAuthenticatorTest extends TestCase
 
     public function testAuthenticateReturnsPassport(): void
     {
-        $accessToken = $this->createMock(AccessToken::class);
+        $accessToken = $this->createStub(AccessToken::class);
 
-        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser = $this->createStub(GoogleUser::class);
         $googleUser->method('getId')->willReturn('google-789');
 
         $oauthClient = $this->createMock(OAuth2ClientInterface::class);
-        $oauthClient->method('getAccessToken')->willReturn($accessToken);
-        $oauthClient->expects(self::any())->method('fetchUserFromToken')->with($accessToken)->willReturn($googleUser);
+        $oauthClient->expects(self::once())->method('getAccessToken')->willReturn($accessToken);
+        $oauthClient->expects(self::once())->method('fetchUserFromToken')->with($accessToken)->willReturn($googleUser);
 
-        $this->clientRegistry->expects(self::any())->method('getClient')->with('google')->willReturn($oauthClient);
+        $this->clientRegistry->expects(self::exactly(2))->method('getClient')->with('google')->willReturn($oauthClient);
 
         $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('google-789');
         $this->userRepository->method('findOneBy')->willReturn($existingUser);
@@ -87,14 +89,14 @@ class GoogleAuthenticatorTest extends TestCase
     {
         $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('google-123');
 
-        $this->userRepository->expects(self::any())->method('findOneBy')
+        $this->userRepository->expects(self::once())->method('findOneBy')
             ->with(['googleId' => 'google-123'])
             ->willReturn($existingUser);
 
         $this->entityManager->expects(self::never())->method('persist');
         $this->entityManager->expects(self::never())->method('flush');
 
-        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser = $this->createStub(GoogleUser::class);
         $googleUser->method('getId')->willReturn('google-123');
 
         $method = new \ReflectionMethod($this->authenticator, 'getUser');
@@ -116,7 +118,7 @@ class GoogleAuthenticatorTest extends TestCase
         $this->entityManager->expects(self::once())->method('persist');
         $this->entityManager->expects(self::once())->method('flush');
 
-        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser = $this->createStub(GoogleUser::class);
         $googleUser->method('getId')->willReturn('google-456');
         $googleUser->method('getEmail')->willReturn('shared@example.com');
 
@@ -134,7 +136,7 @@ class GoogleAuthenticatorTest extends TestCase
         $this->entityManager->expects(self::once())->method('persist');
         $this->entityManager->expects(self::once())->method('flush');
 
-        $googleUser = $this->createMock(GoogleUser::class);
+        $googleUser = $this->createStub(GoogleUser::class);
         $googleUser->method('getId')->willReturn('google-456');
         $googleUser->method('getEmail')->willReturn('new@example.com');
 
@@ -155,7 +157,7 @@ class GoogleAuthenticatorTest extends TestCase
 
         $response = $this->authenticator->onAuthenticationSuccess(
             $request,
-            $this->createMock(TokenInterface::class),
+            $this->createStub(TokenInterface::class),
             'main'
         );
 
@@ -164,14 +166,14 @@ class GoogleAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationSuccessRedirectsToDefault(): void
     {
-        $this->urlGenerator->expects(self::any())->method('generate')->with('app_default')->willReturn('/');
+        $this->urlGenerator->expects(self::once())->method('generate')->with('app_default')->willReturn('/');
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
 
         $response = $this->authenticator->onAuthenticationSuccess(
             $request,
-            $this->createMock(TokenInterface::class),
+            $this->createStub(TokenInterface::class),
             'main'
         );
 
@@ -180,7 +182,7 @@ class GoogleAuthenticatorTest extends TestCase
 
     public function testOnAuthenticationFailureAddsFlashAndRedirects(): void
     {
-        $this->urlGenerator->expects(self::any())->method('generate')->with('app_login')->willReturn('/login');
+        $this->urlGenerator->expects(self::once())->method('generate')->with('app_login')->willReturn('/login');
 
         $session = new Session(new MockArraySessionStorage());
         $request = new Request();
