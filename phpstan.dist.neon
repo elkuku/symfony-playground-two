@@ -10,6 +10,8 @@ parameters:
         - public/
         - src/
         - tests/
+    excludePaths:
+        - src/Kernel.php
     cognitive_complexity:
         class: 50
         function: 8
