@@ -185,6 +185,8 @@
       <path value="$PROJECT_DIR$/vendor/tomasvotruba/cognitive-complexity" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan-phpunit" />
       <path value="$PROJECT_DIR$/vendor/sebastian/git-state" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/file-filter" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-deepclone" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.5" />
