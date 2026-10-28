@@ -59,7 +59,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
         $request->setSession(new Session(new MockArraySessionStorage()));
 
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage('Missing credentials');
+        $this->expectExceptionMessageIsOrContains('Missing credentials');
         $this->authenticator->authenticate($request);
     }
 
@@ -69,7 +69,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
         $request->setSession(new Session(new MockArraySessionStorage()));
 
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage('Missing credentials');
+        $this->expectExceptionMessageIsOrContains('Missing credentials');
         $this->authenticator->authenticate($request);
     }
 
