@@ -46,13 +46,13 @@
         </li>
         <li>
             Your Controller at
-            <a href="{{ (project_dir ~ '/src/Controller/DefaultController.php')|file_link(0) }}">
+            <a href="{{ controller_link ?: '#' }}">
                 src/Controller/DefaultController.php
             </a>
         </li>
         <li>
             Your template at
-            <a href="{{ (project_dir ~ '/templates/default/index.html.twig')|file_link(0) }}">
+            <a href="{{ template_link ?: '#' }}">
                 templates/default/index.html.twig
             </a>
         </li>
