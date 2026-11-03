@@ -1,8 +1,17 @@
 name: GitHub Pages
 
+# Publish the coverage report only after CI has passed on master.
 on:
-    push:
+    workflow_run:
+        workflows: [CI]
+        types: [completed]
         branches: [master]
+    workflow_dispatch:
+
+env:
+    APP_ENV: test
+    PHP_VERSION: '8.5'
+    DATABASE_URL: 'postgresql://app:password@127.0.0.1:5432/app?serverVersion=15&charset=utf8'
 
 permissions:
     contents: read
@@ -15,47 +24,51 @@ concurrency:
 
 jobs:
     build:
+        if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push') }}
         runs-on: ubuntu-latest
+
         services:
             postgres:
-                image: postgres:15
+                image: postgres:15-alpine
                 env:
-                    POSTGRES_USER: postgres
-                    POSTGRES_PASSWORD: postgres
-                    POSTGRES_DB: postgres
+                    POSTGRES_DB: app
+                    POSTGRES_USER: app
+                    POSTGRES_PASSWORD: password
                 ports:
-                    - 5432/tcp
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+                    - 5432:5432
+                options: >-
+                    --health-cmd "pg_isready -d app -U app"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  # Build exactly the commit that CI tested.
+                  ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
             - name: Setup PHP with coverage
-              uses: shivammathur/setup-php@v2
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
               with:
-                  php-version: '8.5'
+                  php-version: ${{ env.PHP_VERSION }}
+                  extensions: intl, pdo_pgsql
                   coverage: pcov
-                  extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql, dom, filter, gd, json, pdo
 
             - name: Install dependencies
-              uses: php-actions/composer@v6
-
-            - name: Install assets
-              run: bin/console importmap:install
+              uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+              with:
+                  require-lock-file: true
 
             - name: Setup test database
               run: |
-                  bin/console doctrine:database:create
-                  bin/console doctrine:migrations:migrate -n
-                  bin/console doctrine:fixtures:load -n
-              env:
-                  APP_ENV: test
-                  DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?serverVersion=15&charset=UTF-8
+                  php bin/console doctrine:database:create --if-not-exists
+                  php bin/console doctrine:migrations:migrate --no-interaction
+                  php bin/console doctrine:fixtures:load --no-interaction
 
             - name: Generate coverage report
               run: vendor/bin/phpunit --coverage-html docs/coverage --coverage-clover docs/coverage.xml
-              env:
-                  APP_ENV: test
-                  DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?serverVersion=15&charset=UTF-8
 
             - name: Apply dark theme to coverage report
               run: |
@@ -65,10 +78,10 @@ jobs:
               run: php .github/scripts/generate-page.php
 
             - name: Configure Pages
-              uses: actions/configure-pages@v5
+              uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
             - name: Upload artifact
-              uses: actions/upload-pages-artifact@v3
+              uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
               with:
                   path: docs/
 
@@ -81,4 +94,4 @@ jobs:
         steps:
             - name: Deploy to GitHub Pages
               id: deployment
-              uses: actions/deploy-pages@v4
+              uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

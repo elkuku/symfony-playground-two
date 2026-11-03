@@ -11,12 +11,3 @@ tests:
 	vendor/bin/rector process --dry-run
 	vendor/bin/php-cs-fixer check --diff
 .PHONY: tests
-citests: export APP_ENV=test
-citests:
-	bin/console doctrine:database:create
-	bin/console doctrine:migrations:migrate -n
-	bin/console doctrine:fixtures:load -n
-	vendor/bin/phpunit --testdox
-	vendor/bin/phpstan
-	vendor/bin/rector process --dry-run
-	vendor/bin/php-cs-fixer check --diff
