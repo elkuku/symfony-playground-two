@@ -112,8 +112,9 @@ jobs:
             - name: Lint container
               run: php bin/console lint:container --env=prod
 
+            # Only our own templates: bundle templates (profiler, email) need dev-only extensions.
             - name: Lint Twig
-              run: php bin/console lint:twig --env=prod
+              run: php bin/console lint:twig templates --env=prod
 
             - name: Lint YAML
               run: php bin/console lint:yaml config --parse-tags
