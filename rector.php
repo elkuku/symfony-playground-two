@@ -27,5 +27,10 @@ return RectorConfig::configure()
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
     ])
-    ->withComposerBased(twig: true, doctrine: true, phpunit: true, symfony: true)
+    ->withComposerBased(
+        twig: true,
+        doctrine: true,
+        phpunit: true,
+        symfony: true
+    )
     ->withRootFiles();
