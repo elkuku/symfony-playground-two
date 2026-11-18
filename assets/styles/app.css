@@ -65,3 +65,12 @@ main > .container {
     flex: 1;
     border-top: 1px solid var(--bs-border-color);
 }
+
+/*
+ * Google's button is an iframe with a light color scheme. In dark mode the page
+ * uses "color-scheme: dark", and Chrome paints an opaque white background behind
+ * iframes whose color scheme differs. Matching it keeps the background transparent.
+ */
+.g_id_signin iframe {
+    color-scheme: light;
+}
