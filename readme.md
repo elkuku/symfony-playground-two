@@ -13,10 +13,6 @@ An opinionated [Symfony](https://symfony.com) project template including:
 * A user CRUD interface
 * Bootstrap
 
-## Google login
-
-The template ships two Google logins, "Continue with Google" (OAuth redirect) and "Sign in with Google" (Google's own button). Keep the one you need: see [Google login: pick one](doc/google-login.md).
-
 ## Installation
 Clone the repo then use the
 ```shell
@@ -63,6 +59,10 @@ You can create this with
 ```shell
 composer db-diagram
 ```
+
+## Google login
+
+The template ships two Google logins, "Continue with Google" (OAuth redirect) and "Sign in with Google" (Google's own button). Keep the one you need: see [Google login: pick one](doc/google-login.md).
 
 ----
 
