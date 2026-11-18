@@ -54,6 +54,8 @@ Access control uses `#[IsGranted()]` attributes.
 ### Security
 Multi-authenticator: form login (dev only) + OAuth2 via `knpuniversity/oauth2-client-bundle`. Remember-me is enabled.
 
+There are intentionally two Google logins (`GoogleAuthenticator` = OAuth redirect, `GoogleIdentityAuthenticator` = Sign in with Google). Projects built from the template remove one; see "Google login: pick one" in `readme.md`. Don't remove either in the template itself.
+
 ### Frontend
 Asset Mapper (no Webpack), Bootstrap, Stimulus, Twig Components, UX Icons.
 
