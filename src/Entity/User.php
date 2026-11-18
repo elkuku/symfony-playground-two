@@ -18,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[Entity(repositoryClass: UserRepository::class)]
-#[Table(name: 'system_user')]
+// Quoted: USER is a reserved word in PostgreSQL.
+#[Table(name: '`user`')]
 #[UniqueEntity(fields: 'identifier', message: 'This identifier is already in use')]
 class User implements UserInterface
 {

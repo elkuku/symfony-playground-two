@@ -26,7 +26,7 @@ echo "✅"
 symfony console doctrine:migrations:migrate -n || exit 1
 
 # Loading fixtures purges the database, so only do it on a fresh install.
-USER_COUNT=$(symfony console dbal:run-sql --force-fetch "SELECT COUNT(*) AS n FROM system_user" 2>/dev/null | grep -oE '^\s*[0-9]+\s*$' | tr -d ' ')
+USER_COUNT=$(symfony console dbal:run-sql --force-fetch 'SELECT COUNT(*) AS n FROM "user"' 2>/dev/null | grep -oE '^\s*[0-9]+\s*$' | tr -d ' ')
 if [ "$USER_COUNT" = "0" ]; then
   echo "Loading fixtures (users 'user' and 'admin') ..."
   symfony console doctrine:fixtures:load -n || exit 1

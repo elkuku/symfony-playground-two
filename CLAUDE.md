@@ -39,7 +39,7 @@ symfony console user-admin  # Interactive user management CLI
 ## Architecture
 
 ### Entities & Enums
-- **`User`** (`system_user` table) — single entity, implements `UserInterface`. Uses `identifier` (unique string) as the username. OAuth IDs (`googleId`, `gitHubId`, `gitLabId`) are nullable. Role is stored via `UserRole` enum.
+- **`User`** (`user` table, always quoted in raw SQL because `USER` is reserved in PostgreSQL) — single entity, implements `UserInterface`. Uses `identifier` (unique string) as the username. OAuth IDs (`googleId`, `gitHubId`, `gitLabId`) are nullable. Role is stored via `UserRole` enum.
 - **`UserRole`** enum — `ROLE_USER` (default) and `ROLE_ADMIN`.
 
 ### Controllers
