@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# Install script
+# Install script: dependencies, Docker services, database, fixtures, server.
+#
+# Installed by the elkuku/symfony-utils Flex recipe.
 #
 # License: WTFPL
 # Author: Nikolai Plath
@@ -13,27 +15,29 @@ cd "$DIR" || exit 1
 
 checkIsInstalled composer
 checkIsInstalled symfony
-checkDockerCompose
 
 echo "🚀 Setting up dev env in $DIR ..."
 
 composer install || exit 1
 
-echo -n 'Starting the database and waiting for it to get ready ... '
-docker compose up -d --wait || exit 1
-echo "✅"
+startServices
 
-symfony console doctrine:migrations:migrate -n || exit 1
+if hasConsoleCommand doctrine:migrations; then
+  # Loading fixtures purges the database, so only do it when no migration had run before.
+  EXECUTED_BEFORE=$(executedMigrations)
 
-# Loading fixtures purges the database, so only do it on a fresh install.
-USER_COUNT=$(symfony console dbal:run-sql --force-fetch 'SELECT COUNT(*) AS n FROM "user"' 2>/dev/null | grep -oE '^\s*[0-9]+\s*$' | tr -d ' ')
-if [ "$USER_COUNT" = "0" ]; then
-  echo "Loading fixtures (users 'user' and 'admin') ..."
-  symfony console doctrine:fixtures:load -n || exit 1
-elif [ -z "$USER_COUNT" ]; then
-  echo "⚠️  Could not count the users, skipping fixtures. Load them with: symfony console doctrine:fixtures:load"
-else
-  echo "Database already has users, skipping fixtures."
+  symfony console doctrine:migrations:migrate -n --allow-no-migration || exit 1
+
+  if hasConsoleCommand doctrine:fixtures; then
+    if [ "$EXECUTED_BEFORE" = "0" ]; then
+      echo "Fresh database, loading fixtures ..."
+      symfony console doctrine:fixtures:load -n || exit 1
+    elif [ -z "$EXECUTED_BEFORE" ]; then
+      echo "⚠️  Could not check the database state, skipping fixtures. Load them with: symfony console doctrine:fixtures:load"
+    else
+      echo "Database already set up, skipping fixtures."
+    fi
+  fi
 fi
 
 symfony server:start -d

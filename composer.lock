@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c74ea2534b700744563210612228140",
+    "content-hash": "e71442de753e0e6b919c13caf741be8b",
     "packages": [
         {
             "name": "composer/semver",
@@ -1339,16 +1339,16 @@
         },
         {
             "name": "elkuku/symfony-utils",
-            "version": "0.4.1",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elkuku/symfony-utils.git",
-                "reference": "d18c1fee024564d5d02cbda713579936c2296b52"
+                "reference": "5f8ac462e20deddbeeb360a77f6b1a1d6debc4af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elkuku/symfony-utils/zipball/d18c1fee024564d5d02cbda713579936c2296b52",
-                "reference": "d18c1fee024564d5d02cbda713579936c2296b52",
+                "url": "https://api.github.com/repos/elkuku/symfony-utils/zipball/5f8ac462e20deddbeeb360a77f6b1a1d6debc4af",
+                "reference": "5f8ac462e20deddbeeb360a77f6b1a1d6debc4af",
                 "shasum": ""
             },
             "require": {
@@ -1383,10 +1383,10 @@
             "description": "Various Symfony Utilities",
             "support": {
                 "issues": "https://github.com/elkuku/symfony-utils/issues",
-                "source": "https://github.com/elkuku/symfony-utils/tree/0.4.1"
+                "source": "https://github.com/elkuku/symfony-utils/tree/0.5.0"
             },
-            "time": "2026-10-20T13:22:10+00:00",
-            "published-time": "2026-10-20T13:22:21+00:00"
+            "time": "2026-11-18T14:25:05+00:00",
+            "published-time": "2026-11-18T14:28:55+00:00"
         },
         {
             "name": "firebase/php-jwt",
