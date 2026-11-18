@@ -1,0 +1,16 @@
+# https://github.com/jawira/doctrine-diagram-bundle
+# Generate the diagram with: composer db-diagram
+when@dev:
+    doctrine_diagram:
+        er:
+            filename: '%kernel.project_dir%/assets/docs/database'
+            size: midi
+            # "include"/"exclude" set here are ignored: the command passes an empty list instead
+            # of null when its option is not given. So the "db-diagram" script in composer.json
+            # passes --exclude itself.
+        class:
+            filename: '%kernel.project_dir%/class'
+            size: midi
+        convert:
+            format: svg
+            converter: auto

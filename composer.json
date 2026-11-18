@@ -120,7 +120,7 @@
             "composer recipes"
             ],
         "db-diagram": [
-            "symfony console doctrine:diagram:er --filename=assets/docs/database.svg --exclude=doctrine_migration_versions"
+            "symfony console doctrine:diagram:er --exclude=doctrine_migration_versions"
         ]
     },
     "conflict": {
