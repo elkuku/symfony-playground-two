@@ -117,7 +117,7 @@
             "echo 'Check for outdated PHP deps:'",
             "composer outdated",
             "echo 'Check for outdated Recipes:'",
-            "composer recipes:update"
+            "composer recipes"
             ],
         "db-diagram": [
             "bin/console doctrine:diagram:class --filename=assets/docs/database.svg"
