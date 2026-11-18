@@ -120,7 +120,8 @@
             "composer recipes"
             ],
         "db-diagram": [
-            "bin/console doctrine:diagram:class --filename=assets/docs/database.svg"
+            "bin/console doctrine:diagram:class --format=puml --filename=var/database.puml",
+            "bin/db-diagram var/database.puml assets/docs/database.svg"
         ]
     },
     "conflict": {
