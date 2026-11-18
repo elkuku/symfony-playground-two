@@ -51,7 +51,7 @@
         "version": "1.2"
     },
     "elkuku/symfony-utils": {
-        "version": "0.5",
+        "version": "0.6",
         "recipe": {
             "repo": "github.com/elkuku/recipes",
             "branch": "main",

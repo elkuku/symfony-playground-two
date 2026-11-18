@@ -11,6 +11,8 @@
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && cd .. && pwd)"
 cd "$DIR" || exit 1
 
+# In a project, functions.sh sits next to this script in bin/.
+# shellcheck source=functions.sh
 . ./bin/functions.sh
 
 checkIsInstalled composer
@@ -21,6 +23,10 @@ echo "🚀 Setting up dev env in $DIR ..."
 composer install || exit 1
 
 startServices
+
+if hasConsoleCommand doctrine:database; then
+  waitForDatabase
+fi
 
 if hasConsoleCommand doctrine:migrations; then
   # Loading fixtures purges the database, so only do it when no migration had run before.
