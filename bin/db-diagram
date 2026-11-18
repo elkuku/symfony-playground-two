@@ -8,9 +8,15 @@ declare(strict_types=1);
  *
  * Usage: bin/db-diagram <source.puml> <target.svg>
  *
- * Workaround: jawira/entity-draw writes "set separator \ ", and current PlantUML treats the
- * trailing backslash as a line continuation, so the server rejects the whole diagram.
+ * Temporary workaround: PlantUML v1.2026.7 and v1.2026.8 broke the custom namespace
+ * separator that the bundle writes ("set separator \ "), so the server rejects the whole
+ * diagram (https://github.com/plantuml/plantuml/issues/2938). It is fixed in v1.2026.9,
+ * but the public plantuml.com server still runs an older version.
  * "set separator none" has the same effect (no package boxes) and renders fine.
+ *
+ * Once plantuml.com runs v1.2026.9 or later, remove this script and change the
+ * "db-diagram" script in composer.json back to:
+ *   bin/console doctrine:diagram:class --filename=assets/docs/database.svg
  */
 
 use Jawira\PlantUmlClient\Client;
