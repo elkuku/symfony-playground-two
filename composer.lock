@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63b4751d898a649f013b40db01f333fa",
+    "content-hash": "8c74ea2534b700744563210612228140",
     "packages": [
         {
             "name": "composer/semver",
@@ -9512,7 +9512,7 @@
         },
         {
             "name": "jawira/doctrine-diagram-bundle",
-            "version": "dev-main",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jawira/doctrine-diagram-bundle.git",
@@ -9551,7 +9551,6 @@
             "suggest": {
                 "jawira/plantuml": "Install PlantUML executable/jar with Composer."
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -9581,10 +9580,10 @@
             "support": {
                 "docs": "https://jawira.github.io/doctrine-diagram-bundle",
                 "issues": "https://github.com/jawira/doctrine-diagram-bundle/issues",
-                "source": "https://github.com/jawira/doctrine-diagram-bundle/tree/main"
+                "source": "https://github.com/jawira/doctrine-diagram-bundle/tree/v2.0.1"
             },
             "time": "2026-10-21T08:28:10+00:00",
-            "published-time": "2026-10-21T08:28:14+00:00"
+            "published-time": "2026-10-21T08:32:38+00:00"
         },
         {
             "name": "jawira/doctrine-diagram-contracts",
@@ -13752,7 +13751,6 @@
     "aliases": [],
     "minimum-stability": "beta",
     "stability-flags": {
-        "jawira/doctrine-diagram-bundle": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
