@@ -6,3 +6,12 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# Generated or machine-specific, not shared
+/php.xml
+/php-test-framework.xml
+/dataSources.xml
+/jsonSchemas.xml
+# Plugins and frameworks not used by this project
+/laravel-idea.xml
+/codeception.xml
+/phpspec.xml

@@ -27,7 +27,7 @@ vendor/bin/php-cs-fixer check --diff    # Check code style
 vendor/bin/php-cs-fixer fix             # Auto-fix code style
 ```
 
-`make tests` drops and recreates the test database before running PHPUnit (uses `APP_ENV=test`).
+`make tests` drops and recreates the test database before running PHPUnit (uses `APP_ENV=test`). Run it after every code change; running PHPUnit alone against a reused test database gives false failures.
 
 ### Maintenance
 ```bash
