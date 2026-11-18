@@ -12,6 +12,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         __DIR__.'/tests/bootstrap.php',
+        __DIR__.'/importmap.php',
     ])
     ->withPreparedSets(
         deadCode: true,
