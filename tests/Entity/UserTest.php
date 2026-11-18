@@ -45,4 +45,18 @@ class UserTest extends TestCase
 
         self::assertSame('foo@example.com', $copy->getIdentifier());
     }
+
+    public function testNewUserHasNoId(): void
+    {
+        self::assertNull(new User()->id);
+    }
+
+    public function testIdCannotBeChangedFromOutside(): void
+    {
+        $this->expectException(\Error::class);
+
+        $user = new User();
+        // @phpstan-ignore assign.propertyPrivateSet
+        $user->id = 42;
+    }
 }

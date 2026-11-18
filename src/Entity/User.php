@@ -23,11 +23,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class User implements UserInterface
 {
     #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
-    public ?int $id = 0 {
-        get {
-            return $this->id;
-        }
-    }
+    /**
+     * Null until the user has been saved.
+     */
+    public private(set) ?int $id = null;
 
     #[Column(unique: true), NotBlank]
     private string $identifier = '';
