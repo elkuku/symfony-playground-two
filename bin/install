@@ -6,28 +6,35 @@
 # Author: Nikolai Plath
 #
 
-# Ensure we're in the right spot. @todo this only works in bash :(
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && cd .. && pwd)"
 cd "$DIR" || exit 1
-DOCKER_CONTAINER="$(basename "$DIR" | tr "[:upper:]" "[:lower:]")-database-1"
 
 . ./bin/functions.sh
 
 checkIsInstalled composer
-checkIsInstalled docker-compose
 checkIsInstalled symfony
+checkDockerCompose
 
 echo "🚀 Setting up dev env in $DIR ..."
 
-composer install
+composer install || exit 1
 
-docker-compose up -d
+echo -n 'Starting the database and waiting for it to get ready ... '
+docker compose up -d --wait || exit 1
+echo "✅"
 
-echo -n 'Waiting for db '
-waitContainer "$DOCKER_CONTAINER"
-echo " ✅  "
+symfony console doctrine:migrations:migrate -n || exit 1
 
-symfony console doctrine:migrations:migrate -n
+# Loading fixtures purges the database, so only do it on a fresh install.
+USER_COUNT=$(symfony console dbal:run-sql --force-fetch "SELECT COUNT(*) AS n FROM system_user" 2>/dev/null | grep -oE '^\s*[0-9]+\s*$' | tr -d ' ')
+if [ "$USER_COUNT" = "0" ]; then
+  echo "Loading fixtures (users 'user' and 'admin') ..."
+  symfony console doctrine:fixtures:load -n || exit 1
+elif [ -z "$USER_COUNT" ]; then
+  echo "⚠️  Could not count the users, skipping fixtures. Load them with: symfony console doctrine:fixtures:load"
+else
+  echo "Database already has users, skipping fixtures."
+fi
 
 symfony server:start -d
 

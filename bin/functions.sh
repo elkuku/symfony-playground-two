@@ -14,17 +14,11 @@ function checkIsInstalled {
   fi
 }
 
-function getContainerHealth {
-  docker inspect --format "{{.State.Health.Status}}" $1
-}
-
-function waitContainer {
-  while STATUS=$(getContainerHealth $1); [ $STATUS != "healthy" ]; do
-    if [ "$STATUS" == "unhealthy" ]; then
-      echo "Failed!"
+function checkDockerCompose {
+  checkIsInstalled docker
+  if ! docker compose version &> /dev/null
+  then
+      echo "❌ ERROR: 'docker compose' (Compose v2) is not available on your system :("
       exit 1
-    fi
-    printf .
-    sleep 1
-  done
+  fi
 }

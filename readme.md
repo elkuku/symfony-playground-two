@@ -47,6 +47,9 @@ Clone the repo then use the
 bin/install
 ```
 command OR execute the script content manually.
+
+It needs Composer, the [Symfony CLI](https://symfony.com/download) and Docker with Compose v2 (`docker compose`).
+On a fresh database it loads two users, `user` and `admin`, that you can log in with using the `dev` login form.
    
 ## Usage
 Create and administer user accounts.

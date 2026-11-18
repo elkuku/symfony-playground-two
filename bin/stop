@@ -12,11 +12,11 @@ cd "$DIR" || exit 1
 . ./bin/functions.sh
 
 checkIsInstalled symfony
-checkIsInstalled docker-compose
+checkDockerCompose
 
 echo "⭕️ Stopping dev env in $DIR ..."
 
-docker-compose stop
+docker compose stop
 
 symfony server:stop
 
