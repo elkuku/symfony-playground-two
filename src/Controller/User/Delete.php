@@ -22,6 +22,13 @@ final class Delete extends BaseController
         User $user,
         EntityManagerInterface $entityManager
     ): Response {
+        // Deleting yourself could leave the application without an administrator.
+        if ($user->id === $this->getUser()->id) {
+            $this->addFlash('danger', 'You cannot delete your own account.');
+
+            return $this->redirectToRoute('app_user_show', ['id' => $user->id], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$user->id, $request->getPayload()->getString('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();

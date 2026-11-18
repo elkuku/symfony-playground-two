@@ -23,6 +23,6 @@ class OAuthCancelTest extends WebTestCase
 
         self::assertResponseRedirects('/login');
         $client->followRedirect();
-        self::assertSelectorExists('.alert-danger');
+        self::assertSelectorExists('.alert-danger[role="alert"]');
     }
 }

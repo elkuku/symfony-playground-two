@@ -6,7 +6,6 @@ namespace App\Tests\Controller;
 
 use App\Entity\User;
 use App\Enum\UserRole;
-use App\Repository\UserRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectManager;
@@ -20,7 +19,7 @@ final class UserControllerTest extends WebTestCase
     private ObjectManager $manager;
 
     /**
-     * @var EntityRepository<UserRepository>
+     * @var EntityRepository<User>
      */
     private EntityRepository $userRepository;
 
@@ -37,7 +36,7 @@ final class UserControllerTest extends WebTestCase
         $this->manager = $doctrine->getManager();
 
         /**
-         * @var EntityRepository<UserRepository> $repository
+         * @var EntityRepository<User> $repository
          */
         $repository = $this->manager->getRepository(User::class);
         $this->userRepository = $repository;
@@ -151,5 +150,28 @@ final class UserControllerTest extends WebTestCase
         self::assertPageTitleContains('User');
 
         self::assertSame($initialCount, $this->userRepository->count([]));
+    }
+
+    public function testOwnAccountHasNoDeleteButton(): void
+    {
+        $admin = $this->userRepository->findOneBy(['identifier' => 'admin']);
+        self::assertNotNull($admin);
+
+        $this->client->request('GET', \sprintf('%s%s', $this->path, $admin->id));
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorNotExists('form[action$="/user/'.$admin->id.'"] button');
+    }
+
+    public function testCannotDeleteOwnAccount(): void
+    {
+        $admin = $this->userRepository->findOneBy(['identifier' => 'admin']);
+        self::assertNotNull($admin);
+
+        $this->client->request('POST', \sprintf('%s%s', $this->path, $admin->id), ['_token' => 'irrelevant']);
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.alert-danger[role="alert"]', 'You cannot delete your own account.');
+        self::assertNotNull($this->userRepository->findOneBy(['identifier' => 'admin']));
     }
 }
