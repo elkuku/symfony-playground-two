@@ -5,130 +5,30 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Provider\GoogleUser;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
-class GoogleAuthenticator extends AbstractAuthenticator
+class GoogleAuthenticator extends AbstractOAuthAuthenticator
 {
-    use TargetPathTrait;
-
-    public function __construct(
-        private readonly ClientRegistry $clientRegistry,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly UserRepository $userRepository,
-        private readonly UrlGeneratorInterface $urlGenerator,
-    ) {
+    #[\Override]
+    protected function getClientName(): string
+    {
+        return 'google';
     }
 
     #[\Override]
-    public function supports(Request $request): bool
+    protected function getCheckPath(): string
     {
-        return '/connect/google/check' === $request->getPathInfo();
+        return '/connect/google/check';
     }
 
-    /**
-     * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
-     */
     #[\Override]
-    public function authenticate(Request $request): Passport
+    protected function resolveUser(ResourceOwnerInterface $resourceOwner): User
     {
-        $token = $this->getGoogleClient()->getAccessToken();
-
-        /** @var GoogleUser $googleUser */
-        $googleUser = $this->getGoogleClient()
-            ->fetchUserFromToken($token);
-
-        $user = $this->getUser($googleUser);
-
-        return new SelfValidatingPassport(
-            new UserBadge($user->getUserIdentifier()),
-            [new RememberMeBadge()],
-        );
-    }
-
-    private function getGoogleClient(): OAuth2ClientInterface
-    {
-        return $this->clientRegistry->getClient('google');
-    }
-
-    private function getUser(GoogleUser $googleUser): User
-    {
-        $user = $this->userRepository->findOneBy(['googleId' => $googleUser->getId()]);
-
-        if (null !== $user) {
-            return $user;
+        if (!$resourceOwner instanceof GoogleUser) {
+            throw new \UnexpectedValueException(\sprintf('Expected %s, got %s.', GoogleUser::class, $resourceOwner::class));
         }
 
-        $email = (string) $googleUser->getEmail();
-
-        if ('' === $email) {
-            throw new CustomUserMessageAuthenticationException('Google did not provide an email address.');
-        }
-
-        // Only link to an existing account when Google vouches for the email address.
-        // @see https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
-        $user = $googleUser->isEmailTrustworthy()
-            ? $this->userRepository->findOneBy(['identifier' => $email])
-            : null;
-
-        $user ??= new User()->setIdentifier($this->userRepository->getAvailableIdentifier($email));
-        $user->setGoogleId((string) $googleUser->getId());
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        return $user;
-    }
-
-    #[\Override]
-    public function onAuthenticationSuccess(
-        Request $request,
-        TokenInterface $token,
-        string $firewallName
-    ): RedirectResponse {
-        if ($targetPath = $this->getTargetPath(
-            $request->getSession(),
-            $firewallName
-        )
-        ) {
-            return new RedirectResponse($targetPath);
-        }
-
-        return new RedirectResponse($this->urlGenerator->generate('app_default'));
-    }
-
-    #[\Override]
-    public function onAuthenticationFailure(
-        Request $request,
-        AuthenticationException $exception,
-    ): RedirectResponse {
-        $message = \strtr(
-            $exception->getMessageKey(),
-            $exception->getMessageData()
-        );
-
-        /**
-         * @var Session $session
-         */
-        $session = $request->getSession();
-        $session->getFlashBag()->add('danger', $message);
-
-        return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        return $this->userResolver->fromGoogle($resourceOwner);
     }
 }

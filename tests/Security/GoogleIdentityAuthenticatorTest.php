@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Security;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Security\GoogleIdentityAuthenticator;
-use Doctrine\ORM\EntityManagerInterface;
-use League\OAuth2\Client\Provider\GoogleUser;
+use App\Security\SocialUserResolver;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -24,22 +21,18 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 {
     private GoogleIdentityAuthenticator $authenticator;
 
-    private UserRepository&MockObject $userRepository;
-
-    private EntityManagerInterface&MockObject $entityManager;
+    private SocialUserResolver&\PHPUnit\Framework\MockObject\Stub $userResolver;
 
     private UrlGeneratorInterface&MockObject $urlGenerator;
 
     protected function setUp(): void
     {
-        $this->userRepository = $this->createMock(UserRepository::class);
-        $this->entityManager = $this->createMock(EntityManagerInterface::class);
+        $this->userResolver = $this->createStub(SocialUserResolver::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
 
         $this->authenticator = new GoogleIdentityAuthenticator(
             'test-google-client-id',
-            $this->userRepository,
-            $this->entityManager,
+            $this->userResolver,
             $this->urlGenerator,
         );
     }
@@ -73,113 +66,6 @@ class GoogleIdentityAuthenticatorTest extends TestCase
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessageIsOrContains('Missing credentials');
         $this->authenticator->authenticate($request);
-    }
-
-    public function testGetUserReturnsExistingUserByGoogleId(): void
-    {
-        $existingUser = new User()->setIdentifier('test@example.com')->setGoogleId('gid-123');
-
-        $this->userRepository->expects(self::once())->method('findOneBy')
-            ->with(['googleId' => 'gid-123'])
-            ->willReturn($existingUser);
-
-        $this->entityManager->expects(self::never())->method('persist');
-        $this->entityManager->expects(self::never())->method('flush');
-
-        $googleUser = $this->createStub(GoogleUser::class);
-        $googleUser->method('getId')->willReturn('gid-123');
-
-        $method = new \ReflectionMethod($this->authenticator, 'getUser');
-        $result = $method->invoke($this->authenticator, $googleUser);
-
-        self::assertSame($existingUser, $result);
-    }
-
-    public function testGetUserLinksExistingAccountByTrustworthyEmail(): void
-    {
-        $existingUser = new User()->setIdentifier('shared@gmail.com');
-
-        $this->userRepository->method('findOneBy')
-            ->willReturnMap([
-                [['googleId' => 'gid-999'], null],
-                [['identifier' => 'shared@gmail.com'], $existingUser],
-            ]);
-
-        $this->entityManager->expects(self::once())->method('persist');
-        $this->entityManager->expects(self::once())->method('flush');
-
-        $googleUser = $this->createStub(GoogleUser::class);
-        $googleUser->method('getId')->willReturn('gid-999');
-        $googleUser->method('getEmail')->willReturn('shared@gmail.com');
-        $googleUser->method('isEmailTrustworthy')->willReturn(true);
-
-        $method = new \ReflectionMethod($this->authenticator, 'getUser');
-        $result = $method->invoke($this->authenticator, $googleUser);
-
-        self::assertSame($existingUser, $result);
-        self::assertSame('gid-999', $result->getGoogleId());
-    }
-
-    public function testGetUserDoesNotLinkByUntrustworthyEmail(): void
-    {
-        $existingUser = new User()->setIdentifier('shared@example.com');
-
-        $this->userRepository->method('findOneBy')
-            ->willReturnMap([
-                [['googleId' => 'gid-999'], null],
-                [['identifier' => 'shared@example.com'], $existingUser],
-            ]);
-        $this->userRepository->expects(self::once())->method('getAvailableIdentifier')
-            ->with('shared@example.com')
-            ->willReturn('shared@example.com-2');
-
-        $googleUser = $this->createStub(GoogleUser::class);
-        $googleUser->method('getId')->willReturn('gid-999');
-        $googleUser->method('getEmail')->willReturn('shared@example.com');
-        $googleUser->method('isEmailTrustworthy')->willReturn(false);
-
-        $method = new \ReflectionMethod($this->authenticator, 'getUser');
-        $result = $method->invoke($this->authenticator, $googleUser);
-
-        self::assertNotSame($existingUser, $result);
-        self::assertNull($existingUser->getGoogleId());
-        self::assertSame('shared@example.com-2', $result->getIdentifier());
-        self::assertSame('gid-999', $result->getGoogleId());
-    }
-
-    public function testGetUserThrowsWithoutEmail(): void
-    {
-        $this->userRepository->method('findOneBy')->willReturn(null);
-        $this->entityManager->expects(self::never())->method('persist');
-
-        $googleUser = $this->createStub(GoogleUser::class);
-        $googleUser->method('getId')->willReturn('gid-999');
-        $googleUser->method('getEmail')->willReturn(null);
-
-        $method = new \ReflectionMethod($this->authenticator, 'getUser');
-
-        $this->expectException(AuthenticationException::class);
-        $method->invoke($this->authenticator, $googleUser);
-    }
-
-    public function testGetUserCreatesNewUserWhenNotFound(): void
-    {
-        $this->userRepository->method('findOneBy')->willReturn(null);
-        $this->userRepository->method('getAvailableIdentifier')->willReturnArgument(0);
-
-        $this->entityManager->expects(self::once())->method('persist');
-        $this->entityManager->expects(self::once())->method('flush');
-
-        $googleUser = $this->createStub(GoogleUser::class);
-        $googleUser->method('getId')->willReturn('gid-999');
-        $googleUser->method('getEmail')->willReturn('brand@new.com');
-        $googleUser->method('isEmailTrustworthy')->willReturn(true);
-
-        $method = new \ReflectionMethod($this->authenticator, 'getUser');
-        $result = $method->invoke($this->authenticator, $googleUser);
-
-        self::assertSame('brand@new.com', $result->getIdentifier());
-        self::assertSame('gid-999', $result->getGoogleId());
     }
 
     public function testOnAuthenticationSuccessRedirectsToTargetPath(): void
