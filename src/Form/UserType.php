@@ -20,6 +20,9 @@ class UserType extends AbstractType
             ->add('role', EnumType::class, [
                 'class' => UserRole::class,
                 'choice_label' => fn (UserRole $role) => $role->label(),
+                // Disabled fields ignore submitted data, so the role cannot be changed at all.
+                'disabled' => $options['lock_role'],
+                'help' => $options['lock_role'] ? 'You cannot change your own role.' : null,
             ])
         ;
     }
@@ -28,6 +31,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'lock_role' => false,
         ]);
+        $resolver->setAllowedTypes('lock_role', 'bool');
     }
 }

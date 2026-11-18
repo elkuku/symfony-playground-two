@@ -20,7 +20,10 @@ final class Update extends BaseController
 {
     public function __invoke(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        // Changing your own role could leave the application without an administrator.
+        $form = $this->createForm(UserType::class, $user, [
+            'lock_role' => $user->id === $this->getUser()->id,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -174,4 +174,36 @@ final class UserControllerTest extends WebTestCase
         self::assertSelectorTextContains('.alert-danger[role="alert"]', 'You cannot delete your own account.');
         self::assertNotNull($this->userRepository->findOneBy(['identifier' => 'admin']));
     }
+
+    public function testOwnRoleFieldIsDisabled(): void
+    {
+        $admin = $this->userRepository->findOneBy(['identifier' => 'admin']);
+        self::assertNotNull($admin);
+
+        $this->client->request('GET', \sprintf('%s%s/edit', $this->path, $admin->id));
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('select[name="user[role]"][disabled]');
+    }
+
+    public function testCannotChangeOwnRole(): void
+    {
+        $admin = $this->userRepository->findOneBy(['identifier' => 'admin']);
+        self::assertNotNull($admin);
+
+        $crawler = $this->client->request('GET', \sprintf('%s%s/edit', $this->path, $admin->id));
+        $token = $crawler->filter('input[name="user[_token]"]')->attr('value');
+
+        // Post the role anyway, as a hand-crafted request would.
+        $this->client->request('POST', \sprintf('%s%s/edit', $this->path, $admin->id), [
+            'user' => ['identifier' => 'admin', 'role' => 'ROLE_USER', '_token' => $token],
+        ]);
+
+        self::assertResponseIsSuccessful();
+
+        $this->manager->clear();
+        $admin = $this->userRepository->findOneBy(['identifier' => 'admin']);
+        self::assertNotNull($admin);
+        self::assertSame(UserRole::ADMIN, $admin->getRole());
+    }
 }
