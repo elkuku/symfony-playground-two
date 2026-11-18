@@ -60,7 +60,7 @@ class LogviewControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
-    public function testOpenEntryThrowsOnDoubleOpen(): void
+    public function testRunWithoutEndLineIsShownAsUnfinished(): void
     {
         \file_put_contents($this->logFile, \implode("\n", [
             '>>>==============',
@@ -78,10 +78,12 @@ class LogviewControllerTest extends WebTestCase
         $client->loginUser($user);
         $client->request(Request::METHOD_GET, '/system/logview');
 
-        self::assertResponseStatusCodeSame(500);
+        self::assertResponseIsSuccessful();
+        self::assertSelectorCount(2, '.accordion-item');
+        self::assertSelectorTextContains('.accordion-button', 'did not finish');
     }
 
-    public function testCloseEntryThrowsOnMissingDateTime(): void
+    public function testRunWithoutDateIsShown(): void
     {
         \file_put_contents($this->logFile, \implode("\n", [
             '>>>==============',
@@ -98,7 +100,8 @@ class LogviewControllerTest extends WebTestCase
         $client->loginUser($user);
         $client->request(Request::METHOD_GET, '/system/logview');
 
-        self::assertResponseStatusCodeSame(500);
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.accordion-button', '(no date)');
     }
 
     public function testAdminSeesLogEntries(): void
