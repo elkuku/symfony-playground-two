@@ -17,7 +17,7 @@ bin/start     # Start dev environment (Docker + Symfony server)
 bin/stop      # Stop Docker containers
 ```
 
-`bin/install`, `bin/start`, `bin/stop` and `bin/functions.sh` are installed by the `elkuku/symfony-utils` Flex recipe (custom endpoint `elkuku/recipes`, configured in `composer.json`). Change them in `elkuku/symfony-utils` (`resources/bin/`), not here; `bin/deploy` is project-specific.
+`bin/install`, `bin/start`, `bin/stop`, `bin/deploy` and `bin/functions.sh` are installed by the `elkuku/symfony-utils` Flex recipe (custom endpoint `elkuku/recipes`, configured in `composer.json`). Change them in `elkuku/symfony-utils` (`resources/bin/`), not here. `bin/deploy` runs on the server; `PHP_BIN`/`COMPOSER_BIN` override the PHP and Composer binaries.
 
 ### Testing & Quality (run via `symfony php` / `symfony console` to pick up correct PHP)
 ```bash

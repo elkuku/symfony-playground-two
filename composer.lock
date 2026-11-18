@@ -1339,16 +1339,16 @@
         },
         {
             "name": "elkuku/symfony-utils",
-            "version": "0.5.0",
+            "version": "0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elkuku/symfony-utils.git",
-                "reference": "5f8ac462e20deddbeeb360a77f6b1a1d6debc4af"
+                "reference": "10f5e0ac512283bfbab2d29ce393504f4e87b24d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elkuku/symfony-utils/zipball/5f8ac462e20deddbeeb360a77f6b1a1d6debc4af",
-                "reference": "5f8ac462e20deddbeeb360a77f6b1a1d6debc4af",
+                "url": "https://api.github.com/repos/elkuku/symfony-utils/zipball/10f5e0ac512283bfbab2d29ce393504f4e87b24d",
+                "reference": "10f5e0ac512283bfbab2d29ce393504f4e87b24d",
                 "shasum": ""
             },
             "require": {
@@ -1383,10 +1383,10 @@
             "description": "Various Symfony Utilities",
             "support": {
                 "issues": "https://github.com/elkuku/symfony-utils/issues",
-                "source": "https://github.com/elkuku/symfony-utils/tree/0.5.0"
+                "source": "https://github.com/elkuku/symfony-utils/tree/0.5.1"
             },
-            "time": "2026-11-18T14:25:05+00:00",
-            "published-time": "2026-11-18T14:28:55+00:00"
+            "time": "2026-11-18T14:43:10+00:00",
+            "published-time": "2026-11-18T14:43:17+00:00"
         },
         {
             "name": "firebase/php-jwt",
