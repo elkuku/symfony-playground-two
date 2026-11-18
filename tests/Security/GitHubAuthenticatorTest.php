@@ -104,33 +104,32 @@ class GitHubAuthenticatorTest extends TestCase
         self::assertSame($existingUser, $result);
     }
 
-    public function testGetUserLinksExistingAccountByNickname(): void
+    public function testGetUserNeverLinksExistingAccountByNickname(): void
     {
-        $existingUser = new User()->setIdentifier('existinguser');
-
-        $this->userRepository->method('findOneBy')
-            ->willReturnMap([
-                [['gitHubId' => 77], null],
-                [['identifier' => 'existinguser'], $existingUser],
-            ]);
+        // A user "admin" exists, and someone logs in with a GitHub account named "admin".
+        $this->userRepository->method('findOneBy')->willReturn(null);
+        $this->userRepository->expects(self::once())->method('getAvailableIdentifier')
+            ->with('admin')
+            ->willReturn('admin-2');
 
         $this->entityManager->expects(self::once())->method('persist');
         $this->entityManager->expects(self::once())->method('flush');
 
         $owner = $this->createStub(GithubResourceOwner::class);
         $owner->method('getId')->willReturn(77);
-        $owner->method('getNickname')->willReturn('existinguser');
+        $owner->method('getNickname')->willReturn('admin');
 
         $method = new \ReflectionMethod($this->authenticator, 'getUser');
         $result = $method->invoke($this->authenticator, $owner);
 
-        self::assertSame($existingUser, $result);
+        self::assertSame('admin-2', $result->getIdentifier());
         self::assertSame(77, $result->getGitHubId());
     }
 
     public function testGetUserCreatesNewUserWhenNotFound(): void
     {
         $this->userRepository->method('findOneBy')->willReturn(null);
+        $this->userRepository->method('getAvailableIdentifier')->willReturnArgument(0);
 
         $this->entityManager->expects(self::once())->method('persist');
         $this->entityManager->expects(self::once())->method('flush');

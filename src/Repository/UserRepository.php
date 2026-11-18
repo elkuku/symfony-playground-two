@@ -36,4 +36,19 @@ class UserRepository extends ServiceEntityRepository
             ['id' => 'ASC']
         );
     }
+
+    /**
+     * Returns $base, or $base with a numeric suffix ("-2", "-3", ...) if it is already taken.
+     */
+    public function getAvailableIdentifier(string $base): string
+    {
+        $identifier = $base;
+        $suffix = 1;
+
+        while (null !== $this->findOneBy(['identifier' => $identifier])) {
+            $identifier = $base.'-'.++$suffix;
+        }
+
+        return $identifier;
+    }
 }

@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -101,18 +102,25 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
 
     private function getUser(GoogleUser $googleUser): User
     {
-        $user = $this->userRepository->findOneBy(
-            ['googleId' => $googleUser->getId()]
-        );
+        $user = $this->userRepository->findOneBy(['googleId' => $googleUser->getId()]);
 
         if (null !== $user) {
             return $user;
         }
 
-        // Link to existing account with same email, or register a new user
-        $user = $this->userRepository->findOneBy(['identifier' => $googleUser->getEmail()])
-            ?? new User()->setIdentifier((string) $googleUser->getEmail());
+        $email = (string) $googleUser->getEmail();
 
+        if ('' === $email) {
+            throw new CustomUserMessageAuthenticationException('Google did not provide an email address.');
+        }
+
+        // Only link to an existing account when Google vouches for the email address.
+        // @see https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
+        $user = $googleUser->isEmailTrustworthy()
+            ? $this->userRepository->findOneBy(['identifier' => $email])
+            : null;
+
+        $user ??= new User()->setIdentifier($this->userRepository->getAvailableIdentifier($email));
         $user->setGoogleId((string) $googleUser->getId());
 
         $this->entityManager->persist($user);

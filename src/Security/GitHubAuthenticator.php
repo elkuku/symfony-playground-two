@@ -66,19 +66,20 @@ class GitHubAuthenticator extends AbstractAuthenticator
 
     private function getUser(GithubResourceOwner $resourceOwner): User
     {
-        // 1) have they logged in with GitHub before? Easy!
-        if (($user = $this->userRepository->findOneBy(
-            ['gitHubId' => $resourceOwner->getId()]
-        )) !== null
-        ) {
+        $user = $this->userRepository->findOneBy(['gitHubId' => $resourceOwner->getId()]);
+
+        if (null !== $user) {
             return $user;
         }
 
-        // Link to existing account with same nickname, or register a new user
-        $user = $this->userRepository->findOneBy(['identifier' => $resourceOwner->getNickname()])
-            ?? new User()->setIdentifier((string) $resourceOwner->getNickname());
+        // Never link to an existing account by nickname: GitHub usernames are chosen freely,
+        // so anyone could register a GitHub account named like an existing user and take it over.
+        $nickname = (string) $resourceOwner->getNickname();
+        $base = '' === $nickname ? 'github-'.$resourceOwner->getId() : $nickname;
 
-        $user->setGitHubId($resourceOwner->getId());
+        $user = new User()
+            ->setIdentifier($this->userRepository->getAvailableIdentifier($base))
+            ->setGitHubId($resourceOwner->getId());
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

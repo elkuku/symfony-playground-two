@@ -46,13 +46,30 @@ class LoginFormAuthenticatorTest extends TestCase
         $this->authenticator->authenticate($request);
     }
 
+    public function testSupportsLoginPostInTestEnvironment(): void
+    {
+        $this->router->expects(self::atLeastOnce())->method('generate')->with('app_login')->willReturn('/login');
+
+        self::assertTrue($this->authenticator->supports(Request::create('/login', 'POST')));
+        self::assertFalse($this->authenticator->supports(Request::create('/login', 'GET')));
+    }
+
+    public function testDoesNotSupportLoginInProdEnvironment(): void
+    {
+        $router = $this->createStub(RouterInterface::class);
+        $router->method('generate')->willReturn('/login');
+        $authenticator = new LoginFormAuthenticator($router, 'prod');
+
+        self::assertFalse($authenticator->supports(Request::create('/login', 'POST')));
+    }
+
     public function testAuthenticateThrowsInProdEnvironment(): void
     {
         $authenticator = new LoginFormAuthenticator($this->router, 'prod');
         $request = new Request([], ['identifier' => 'user', '_csrf_token' => 'token123']);
         $request->setSession(new Session(new MockArraySessionStorage()));
 
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(AuthenticationException::class);
         $authenticator->authenticate($request);
     }
 

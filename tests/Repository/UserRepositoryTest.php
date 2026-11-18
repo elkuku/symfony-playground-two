@@ -48,4 +48,15 @@ class UserRepositoryTest extends KernelTestCase
 
         self::assertSame($sorted, $ids);
     }
+
+    public function testGetAvailableIdentifierReturnsFreeIdentifierUnchanged(): void
+    {
+        self::assertSame('nobody-has-this', $this->repository->getAvailableIdentifier('nobody-has-this'));
+    }
+
+    public function testGetAvailableIdentifierAddsSuffixWhenTaken(): void
+    {
+        // "admin" is created by the fixtures.
+        self::assertSame('admin-2', $this->repository->getAvailableIdentifier('admin'));
+    }
 }
